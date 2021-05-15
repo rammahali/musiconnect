@@ -35,7 +35,7 @@
                         <Font name="Gubbi" size="22.0" />
                      </font>
                   </Text>
-                  <Button id="login" layoutY="101.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Login" textFill="WHITE">
+                  <Button id="login" fx:id="login" layoutY="101.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Login" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -45,36 +45,41 @@
                <children>
                   <Pane id="auth-container" layoutX="76.0" layoutY="27.0" prefHeight="425.0" prefWidth="586.0" styleClass="auth-container" stylesheets="@styleSheet.css">
                      <children>
-                        <TextField id="fullName" layoutX="116.0" layoutY="102.0" prefHeight="44.0" prefWidth="361.0" promptText="Full Name">
+                        <TextField id="fullName" fx:id="fullName" layoutX="113.0" layoutY="83.0" prefHeight="44.0" prefWidth="361.0" promptText="Full Name">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </TextField>
-                        <PasswordField id="email" layoutX="115.0" layoutY="156.0" prefHeight="44.0" prefWidth="361.0" promptText="Email">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </PasswordField>
                         <Text id="login-label" fill="WHITE" layoutX="118.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new account">
                            <font>
                               <Font name="Gubbi" size="32.0" />
                            </font>
                         </Text>
-                        <Button id="login" layoutX="191.0" layoutY="356.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Create account" textFill="#f5f3f3">
+                        <Button id="login" fx:id="createAccount" layoutX="191.0" layoutY="356.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Create account" textFill="#f5f3f3">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <PasswordField id="password" layoutX="114.0" layoutY="211.0" prefHeight="44.0" prefWidth="361.0" promptText="Password">
+                        <PasswordField id="password" fx:id="password" layoutX="113.0" layoutY="185.0" prefHeight="44.0" prefWidth="361.0" promptText="Password">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </PasswordField>
-                        <PasswordField id="country" layoutX="114.0" layoutY="266.0" prefHeight="44.0" prefWidth="361.0" promptText="Country">
+                        <TextField id="email" fx:id="email" layoutX="112.0" layoutY="134.0" prefHeight="44.0" prefWidth="361.0" promptText="Email">
                            <font>
                               <Font size="16.0" />
                            </font>
-                        </PasswordField>
+                        </TextField>
+                        <TextField id="country" fx:id="country" layoutX="113.0" layoutY="236.0" prefHeight="44.0" prefWidth="361.0" promptText="Country">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </TextField>
+                        <TextField id="profileImagePath" fx:id="profilePath" layoutX="113.0" layoutY="288.0" prefHeight="44.0" prefWidth="361.0" promptText="Profile image path">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </TextField>
                      </children>
                   </Pane>
                </children>
