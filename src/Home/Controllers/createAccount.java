@@ -1,14 +1,18 @@
 package Home.Controllers;
 
 import Home.App;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static Home.Helper.execute;
@@ -20,7 +24,7 @@ public class createAccount implements Initializable {
     @FXML
     private TextField email;
     @FXML
-    private TextField country;
+    private ChoiceBox countryList;
     @FXML
     private TextField profilePath;
     @FXML
@@ -32,7 +36,7 @@ public class createAccount implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+     importCountries();
     }
 
     @FXML
@@ -49,6 +53,19 @@ public class createAccount implements Initializable {
 
         execute(query);
 
+    }
+
+    @FXML private void importCountries(){
+        ObservableList<String> countries = FXCollections.observableArrayList();
+        countries.add("Select country");
+        String [] countryNames = Locale.getISOCountries();
+        for (String country : countryNames) {
+            Locale obj = new Locale("", country);
+            countries.add(obj.getDisplayCountry());
+        }
+        //populate the Choicebox;
+        countryList.setItems(countries);
+        countryList.getSelectionModel().select(0);
     }
 
 }

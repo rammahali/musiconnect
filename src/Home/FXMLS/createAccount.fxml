@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -45,41 +46,37 @@
                <children>
                   <Pane id="auth-container" layoutX="76.0" layoutY="27.0" prefHeight="425.0" prefWidth="586.0" styleClass="auth-container" stylesheets="@styleSheet.css">
                      <children>
-                        <TextField id="name" fx:id="name" layoutX="113.0" layoutY="83.0" prefHeight="44.0" prefWidth="361.0" promptText="name">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </TextField>
                         <Text id="login-label" fill="WHITE" layoutX="118.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new account">
                            <font>
                               <Font name="Gubbi" size="32.0" />
                            </font>
                         </Text>
-                        <Button id="login" fx:id="createAccount" layoutX="191.0" layoutY="356.0" mnemonicParsing="false" onAction="#onCreateAccountClick" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Create account" textFill="#f5f3f3">
+                        <TextField id="name" fx:id="name" layoutX="113.0" layoutY="83.0" prefHeight="44.0" prefWidth="361.0" promptText="name">
                            <font>
                               <Font size="16.0" />
                            </font>
-                        </Button>
-                        <PasswordField id="password" fx:id="password" layoutX="113.0" layoutY="185.0" prefHeight="44.0" prefWidth="361.0" promptText="Password">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </PasswordField>
+                        </TextField>
                         <TextField id="email" fx:id="email" layoutX="112.0" layoutY="134.0" prefHeight="44.0" prefWidth="361.0" promptText="Email">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </TextField>
-                        <TextField id="country" fx:id="country" layoutX="113.0" layoutY="236.0" prefHeight="44.0" prefWidth="361.0" promptText="Country">
+                        <PasswordField id="password" fx:id="password" layoutX="113.0" layoutY="185.0" prefHeight="44.0" prefWidth="361.0" promptText="Password">
                            <font>
                               <Font size="16.0" />
                            </font>
-                        </TextField>
+                        </PasswordField>
+                        <ChoiceBox fx:id="countryList" layoutX="113.0" layoutY="235.0" prefHeight="44.0" prefWidth="361.0" />
                         <TextField id="profileImagePath" fx:id="profilePath" layoutX="113.0" layoutY="288.0" prefHeight="44.0" prefWidth="361.0" promptText="Profile image path">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </TextField>
+                        <Button id="login" fx:id="createAccount" layoutX="191.0" layoutY="356.0" mnemonicParsing="false" onAction="#onCreateAccountClick" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Create account" textFill="#f5f3f3">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
                      </children>
                   </Pane>
                </children>
