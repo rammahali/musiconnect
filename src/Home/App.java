@@ -7,24 +7,36 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+
 
 public class App extends Application {
     double x,y;
+    private static Scene scene;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLS/login.fxml"));
+        scene = new Scene(loadFXML("login"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        root.setOnMousePressed(mouseEvent -> {
+        scene.setOnMousePressed(mouseEvent -> {
             x = mouseEvent.getSceneX();
             y= mouseEvent.getSceneY();
         });
-        root.setOnMouseDragged(mouseEvent -> {
+        scene.setOnMouseDragged(mouseEvent -> {
             primaryStage.setX(mouseEvent.getScreenX()-x);
             primaryStage.setY(mouseEvent.getScreenY()-y);
         });
-        primaryStage.setTitle("Musiconnect");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+
+    public static void navigateTo(String fxml) throws IOException {
+        scene.setRoot(loadFXML(fxml));
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLS/"+fxml + ".fxml"));
+        return fxmlLoader.load();
     }
 
     public static void main(String[] args) {

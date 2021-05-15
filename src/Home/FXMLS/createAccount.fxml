@@ -35,7 +35,7 @@
                         <Font name="Gubbi" size="22.0" />
                      </font>
                   </Text>
-                  <Button id="login" fx:id="login" layoutY="101.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Login" textFill="WHITE">
+                  <Button id="login" fx:id="login" layoutY="101.0" mnemonicParsing="false" onAction="#onLoginClick" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Login" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
