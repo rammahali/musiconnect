@@ -34,7 +34,7 @@
                         <Font name="Gubbi" size="22.0" />
                      </font>
                   </Text>
-                  <Button id="createAccount" fx:id="createAccount" layoutY="101.0" mnemonicParsing="false" onAction="#onCreateAccountClick" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Create a new account" textFill="WHITE">
+                  <Button id="createAccount" fx:id="createAccount" layoutY="101.0" mnemonicParsing="false" onAction="#onCreateAccountMenuClick" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Create a new account" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

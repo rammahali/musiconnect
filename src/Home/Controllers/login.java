@@ -16,7 +16,7 @@ public class login implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    @FXML private void onCreateAccountClick() throws IOException {
+    @FXML private void onCreateAccountMenuClick() throws IOException {
         App.navigateTo("createAccount");
     }
 }
