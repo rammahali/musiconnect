@@ -39,15 +39,15 @@ public class login implements Initializable {
         ResultSet resultSet = executeQuery(query);
 
         if (!resultSet.next()) {
-            App.showError("Incorrect email or password", "");
+            App.showError("Incorrect email or password", "please try again");
             return;
         }
 
         String passwordHash = resultSet.getString("password_hash");
         if (!getHashedPassword(password.getText()).equals(passwordHash)) {
-            App.showError("Incorrect email or password", "");
+            App.showError("Incorrect email or password", "please try again");
         } else {
-            System.out.println("Successful login");
+            App.showSuccessMessage("Successful login","You are now logged in");
         }
     }
 }

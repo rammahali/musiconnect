@@ -4,9 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -38,11 +41,31 @@ public class App extends Application {
     public static void navigateTo(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
+
+    //Add tray.jar to external libs
     public static void showError(String header,String message){
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setHeaderText(header);
-        errorAlert.setContentText(message);
-        errorAlert.showAndWait();
+        TrayNotification notification = new TrayNotification();
+        notification.setTitle(header);
+        notification.setMessage(message);
+        notification.setNotificationType(NotificationType.ERROR);
+        notification.setAnimationType(AnimationType.POPUP);
+        notification.showAndDismiss(Duration.seconds(3));
+    }
+    public static void showSuccessMessage(String header,String message){
+        TrayNotification notification = new TrayNotification();
+        notification.setTitle(header);
+        notification.setMessage(message);
+        notification.setNotificationType(NotificationType.SUCCESS);
+        notification.setAnimationType(AnimationType.POPUP);
+        notification.showAndDismiss(Duration.seconds(3));
+    }
+    public static void showInfoMessage(String header,String message){
+        TrayNotification notification = new TrayNotification();
+        notification.setTitle(header);
+        notification.setMessage(message);
+        notification.setNotificationType(NotificationType.INFORMATION);
+        notification.setAnimationType(AnimationType.POPUP);
+        notification.showAndDismiss(Duration.seconds(3));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

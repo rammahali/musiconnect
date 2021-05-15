@@ -53,9 +53,8 @@ public class createAccount implements Initializable {
         // TODO: change country to country code, not 1
         String query = String.format("INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES ('%s', '%s', '%s', %d, '%s')",
                 name.getText(), email.getText(), getHashedPassword(password.getText()), 1, profileImagePath);
-
-        execute(query);
-
+           execute(query);
+           App.showSuccessMessage("Account has been created","You are now logged in");
     }
     @FXML private void selectProfileImage(){
         FileChooser fileChooser = new FileChooser();
