@@ -9,7 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -26,13 +28,14 @@ public class createAccount implements Initializable {
     @FXML
     private ChoiceBox countryList;
     @FXML
-    private TextField profilePath;
+    private TextField profileImageName;
     @FXML
     private PasswordField password;
     @FXML
     private Button createAccount;
     @FXML
     private Button login;
+    String profileImagePath="";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,10 +52,18 @@ public class createAccount implements Initializable {
     private void onCreateAccountClick() {
         // TODO: change country to country code, not 1
         String query = String.format("INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES ('%s', '%s', '%s', %d, '%s')",
-                name.getText(), email.getText(), getHashedPassword(password.getText()), 1, profilePath.getText());
+                name.getText(), email.getText(), getHashedPassword(password.getText()), 1, profileImagePath);
 
         execute(query);
 
+    }
+    @FXML private void selectProfileImage(){
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if(selectedFile!=null){
+            profileImageName.setText(selectedFile.getName());
+            profileImagePath=selectedFile.getPath();
+        }
     }
 
     @FXML private void importCountries(){
@@ -60,10 +71,9 @@ public class createAccount implements Initializable {
         countries.add("Select country");
         String [] countryNames = Locale.getISOCountries();
         for (String country : countryNames) {
-            Locale obj = new Locale("", country);
+            Locale obj = new Locale("en", country);
             countries.add(obj.getDisplayCountry());
         }
-        //populate the Choicebox;
         countryList.setItems(countries);
         countryList.getSelectionModel().select(0);
     }
