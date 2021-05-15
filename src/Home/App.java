@@ -1,5 +1,5 @@
 package Home;
-
+//TODO: Add tray.jar to external libs
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,7 +42,6 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
-    //Add tray.jar to external libs
     public static void showError(String header,String message){
         TrayNotification notification = new TrayNotification();
         notification.setTitle(header);
