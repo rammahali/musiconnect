@@ -55,7 +55,7 @@
                               <Font name="Gubbi" size="32.0" />
                            </font>
                         </Text>
-                        <Button id="login" fx:id="createAccount" layoutX="191.0" layoutY="356.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Create account" textFill="#f5f3f3">
+                        <Button id="login" fx:id="createAccount" layoutX="191.0" layoutY="356.0" mnemonicParsing="false" onAction="#onCreateAccountClick" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Create account" textFill="#f5f3f3">
                            <font>
                               <Font size="16.0" />
                            </font>

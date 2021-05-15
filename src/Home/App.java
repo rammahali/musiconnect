@@ -8,13 +8,18 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.Connection;
 
+import static Home.Helper.setupDB;
 
 public class App extends Application {
     double x,y;
+    public static Connection connection;
     private static Scene scene;
     @Override
     public void start(Stage primaryStage) throws Exception{
+        String url = "jdbc:postgresql://localhost:5432/musiconnect?user=postgres&password=postgres";
+        connection = setupDB(url);
         scene = new Scene(loadFXML("login"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         scene.setOnMousePressed(mouseEvent -> {
@@ -28,7 +33,6 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 
     public static void navigateTo(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
