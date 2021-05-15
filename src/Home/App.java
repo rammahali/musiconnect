@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -36,6 +37,12 @@ public class App extends Application {
 
     public static void navigateTo(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
+    }
+    public static void showError(String header,String message){
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setHeaderText(header);
+        errorAlert.setContentText(message);
+        errorAlert.showAndWait();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
