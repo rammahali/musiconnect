@@ -1,0 +1,33 @@
+
+.main-side-bar-color{
+    -fx-background-color: #48115E ;
+}
+
+.home-page-bg{
+    -fx-background-image: url('/Home/Resources/main-bg.jpg');
+    -fx-background-size: 100% 100%;
+}
+.auth-container{
+    -fx-background-color: #48115E ;
+    -fx-opacity: 0.9;
+    -fx-background-radius: 10;
+}
+
+.auth-button{
+    -fx-background-color: #6F1195 ;
+    -fx-background-radius: 10;
+}
+
+.auth-button:hover{
+    -fx-background-color: #290537;
+    -fx-background-radius: 10;
+}
+
+.menu-button{
+    -fx-background-color: #4E0969;
+}
+
+.menu-button:hover{
+    -fx-background-color: #290537;
+}
+

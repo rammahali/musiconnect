@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.Controllers.login">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane prefHeight="479.0" prefWidth="968.0">
+         <children>
+            <Pane id="main-menu" layoutX="-5.0" prefHeight="479.0" prefWidth="245.0" styleClass="main-side-bar-color" stylesheets="@styleSheet.css">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="41.0" layoutX="20.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>           <Image url="@../Resources/music-notes.png" />
+                     </image>
+                  </ImageView>
+                  <Text id="login" fill="WHITE" layoutX="66.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Musiconnect">
+                     <font>
+                        <Font name="Gubbi" size="22.0" />
+                     </font>
+                  </Text>
+                  <Button id="createAccount" fx:id="createAccount" layoutY="101.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Create a new account" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children></Pane>
+            <Pane id="background" layoutX="240.0" prefHeight="479.0" prefWidth="730.0" styleClass="home-page-bg" stylesheets="@styleSheet.css">
+               <children>
+                  <Pane id="auth-container" layoutX="76.0" layoutY="86.0" prefHeight="290.0" prefWidth="586.0" styleClass="auth-container" stylesheets="@styleSheet.css">
+                     <children>
+                        <TextField id="email" fx:id="email" layoutX="116.0" layoutY="98.0" prefHeight="44.0" prefWidth="361.0" promptText="Email">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </TextField>
+                        <PasswordField id="password" fx:id="password" layoutX="115.0" layoutY="156.0" prefHeight="44.0" prefWidth="361.0" promptText="Password">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </PasswordField>
+                        <Text id="login-label" fill="WHITE" layoutX="246.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login">
+                           <font>
+                              <Font name="Gubbi" size="32.0" />
+                           </font>
+                        </Text>
+                        <Button id="go" fx:id="go" layoutX="207.0" layoutY="217.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Go" textFill="#f5f3f3">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>
