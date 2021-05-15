@@ -35,16 +35,11 @@ public class login implements Initializable {
 
     @FXML
     private void onLoginClick() throws SQLException {
-        // FIXME: query not working
-        String query = String.format("SELECT password_hash FROM app_user WHERE email = '%s'", email.getText());
+        String query = String.format("SELECT * FROM app_user WHERE email = '%s'", email.getText());
         ResultSet resultSet = executeQuery(query);
-        String email = resultSet.getString("email");
-        String passwordHash = resultSet.getString("password_hash");
 
-        if (email == null) {
-            System.out.println("Incorrect username or password");
-            return;
-        }
+        resultSet.next();
+        String passwordHash = resultSet.getString("password_hash");
         if (!getHashedPassword(password.getText()).equals(passwordHash)) {
             System.out.println("Incorrect username or password");
         } else {
