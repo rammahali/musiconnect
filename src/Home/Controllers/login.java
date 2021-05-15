@@ -35,7 +35,7 @@ public class login implements Initializable {
 
     @FXML
     private void onLoginClick() throws SQLException {
-        String query = String.format("SELECT * FROM app_user WHERE email = '%s'", email.getText());
+        String query = String.format("SELECT password_hash FROM app_user WHERE email = '%s'", email.getText());
         ResultSet resultSet = executeQuery(query);
 
         if (!resultSet.next()) {
