@@ -1,4 +1,16 @@
 package Home;
+// TODO: Create admin login
+//       Create admin CRUD operations for:
+//          1.1 playlist_song
+//          1.2 streams
+//          1.3 song_artist
+//          2.1 song
+//          2.2 playlist
+//          3. album
+//          4. artist
+//          5. playlist
+
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +31,7 @@ public class App extends Application {
     double x, y;
     public static Connection connection;
     public static Scene scene;
-    public static String userEmail="";
+    public static String userEmail = "";
 
     public static String getUserEmail() {
         return userEmail;
@@ -84,7 +96,7 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    public static FXMLLoader loaderFactory(String fxml) throws IOException {
+    public static FXMLLoader loaderFactory(String fxml) {
         return new FXMLLoader(App.class.getResource("FXMLS/" + fxml + ".fxml"));
     }
 
