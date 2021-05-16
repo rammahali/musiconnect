@@ -14,7 +14,6 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -70,8 +69,11 @@ public class createAccount implements Initializable {
             // TODO: change country to country code, not 1
             String query = String.format("INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES ('%s', '%s', '%s', %d, '%s')",
                     name.getText(), email.getText(), getHashedPassword(password.getText()), 1, profileImagePath);
-            execute(query);
-            App.showSuccessMessage("Account has been created","You are now logged in");
+            if (execute(query)) {
+                App.showSuccessMessage("Account has been created","You are now logged in");
+            } else {
+                App.showError("Could not create account", "Please contact your system administrator");
+            }
         }
 
     }
