@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -34,20 +35,29 @@ public class login implements Initializable {
     }
 
     @FXML
-    private void onLoginClick() throws SQLException {
-        String query = String.format("SELECT password_hash FROM app_user WHERE email = '%s'", email.getText());
-        ResultSet resultSet = executeQuery(query);
+    private void onLoginClick() {
+        String query = "SELECT password_hash FROM app_user WHERE email = ?";
 
-        if (!resultSet.next()) {
-            App.showError("Incorrect email or password", "please try again");
-            return;
-        }
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setString(1, email.getText());
+            ResultSet resultSet = executeQuery(statement, query);
 
-        String passwordHash = resultSet.getString("password_hash");
-        if (!getHashedPassword(password.getText()).equals(passwordHash)) {
-            App.showError("Incorrect email or password", "please try again");
-        } else {
-            App.showSuccessMessage("Successful login","You are now logged in");
+            if (!resultSet.next()) {
+                App.showError("Incorrect email or password", "please try again");
+                return;
+            }
+
+            String passwordHash = resultSet.getString("password_hash");
+
+            if (!getHashedPassword(password.getText()).equals(passwordHash)) {
+                App.showError("Incorrect email or password", "please try again");
+            } else {
+                App.showSuccessMessage("Successful login", "You are now logged in");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            App.showError("Could not login", "Please contact your system administrator");
         }
     }
 }

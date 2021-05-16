@@ -10,20 +10,24 @@ public class Helper {
     private Helper() {
     }
 
-    public static boolean execute(String query) {
-        try {
-            System.out.println("query = " + query);
-            System.out.println("Running query...");
+    public static void execute(PreparedStatement statement, String query) throws SQLException {
+        System.out.println("query = " + query);
+        System.out.println("Running query...");
 
-            Statement st = App.connection.createStatement();
-            st.execute(query);
+        statement.execute();
 
-            System.out.println("query successfully executed!");
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        System.out.println("query successfully executed!");
+    }
+
+    public static ResultSet executeQuery(PreparedStatement statement, String query) throws SQLException {
+
+        System.out.println("query = " + query);
+        System.out.println("Running query...");
+
+        ResultSet rs = statement.executeQuery();
+
+        System.out.println(rs.toString());
+        return rs;
     }
 
     public static String getHashedPassword(String password) {
@@ -47,30 +51,6 @@ public class Helper {
             e.printStackTrace();
         }
         return hashedPassword;
-    }
-
-    /**
-     * Method to execute queries with expected results. e.g.
-     * SELECT x FROM y;
-     *
-     * @param query string of SQL query without semicolon
-     * @return ResultSet , e.g. list of albums
-     */
-    public static ResultSet executeQuery(String query) {
-        ResultSet rs = null;
-
-        try {
-            System.out.println("query = " + query);
-            System.out.println("Running query...");
-
-            Statement st = App.connection.createStatement();
-            rs = st.executeQuery(query);
-
-            System.out.println(rs.toString());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return rs;
     }
 
     public static Connection setupDB(String url) {

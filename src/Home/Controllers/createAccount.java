@@ -14,6 +14,8 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -26,7 +28,7 @@ public class createAccount implements Initializable {
     @FXML
     private TextField email;
     @FXML
-    private ChoiceBox countryList;
+    private ChoiceBox<String> countryList;
     @FXML
     private TextField profileImageName;
     @FXML
@@ -48,7 +50,7 @@ public class createAccount implements Initializable {
     }
 
     private boolean isValidEmailAddress(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
@@ -57,29 +59,44 @@ public class createAccount implements Initializable {
     @FXML
     private void onCreateAccountClick() {
 
-        HashMap<String, Integer> countries = createCountries();
 
-        // validation
-        if (name.getText().length() < 4)
-            App.showError("Name cannot be less than 4 chars", "please update your name");
-        else if (!isValidEmailAddress(email.getText()))
-            App.showError("InValid email address", "please enter a Valid email");
-        else if (password.getText().length() < 5)
-            App.showError("Password cannot be less than 5 chars", "please update your password");
-        else if (countryList.getValue().toString().equals("Select country"))
-            App.showError("Country must be selected", "please select your country");
+        if (isValidAccountCreation()) {
+            HashMap<String, Integer> countries = createCountries();
 
-        else {
-            String query = String.format("INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES ('%s', '%s', '%s', %d, '%s')",
-                    name.getText(), email.getText(), getHashedPassword(password.getText()), countries.get(countryList.getValue().toString()), profileImagePath);
-            if (execute(query)) {
+            String query = "INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+                statement.setString(1, name.getText());
+                statement.setString(2, email.getText());
+                statement.setString(3, getHashedPassword(password.getText()));
+                statement.setInt(4, countries.get(countryList.getValue()));
+                statement.setString(5, profileImagePath);
+
+                execute(statement, query);
                 App.showSuccessMessage("Account has been created", "You are now logged in");
-            } else {
+
+            } catch (SQLException e) {
                 App.showError("Could not create account", "Please contact your system administrator");
+                e.printStackTrace();
             }
         }
-
     }
+
+    private boolean isValidAccountCreation() {
+        boolean isValid = false;
+        if (name.getText().length() < 4) {
+            App.showError("Name cannot be less than 4 chars", "please update your name");
+        } else if (!isValidEmailAddress(email.getText())) {
+            App.showError("InValid email address", "please enter a Valid email");
+        } else if (password.getText().length() < 5) {
+            App.showError("Password cannot be less than 5 chars", "please update your password");
+        } else if (countryList.getValue().equals("Select country")) {
+            App.showError("Country must be selected", "please select your country");
+        } else {
+            isValid = true;
+        }
+        return isValid;
+    }
+
 
     @FXML
     private void selectProfileImage() {
