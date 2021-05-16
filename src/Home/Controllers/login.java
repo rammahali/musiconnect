@@ -2,7 +2,9 @@ package Home.Controllers;
 
 import Home.App;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -14,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import static Home.App.loaderFactory;
 import static Home.Helper.executeQuery;
 import static Home.Helper.getHashedPassword;
 
@@ -47,6 +50,24 @@ public class login implements Initializable {
                 return;
             }
 
+        String passwordHash = resultSet.getString("password_hash");
+        if (!getHashedPassword(password.getText()).equals(passwordHash)) {
+            App.showError("Incorrect email or password", "please try again");
+        } else {
+            App.showSuccessMessage("Successful login", "You are now logged in");
+
+            try {
+                FXMLLoader loader = loaderFactory("userPlaylists");
+                Parent root = loader.load();
+                userPlaylists controller = loader.getController();
+
+                controller.getUserData(email.getText());
+                App.scene.setRoot(root);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            App.showSuccessMessage("Account has been created", "You are now logged in");
             String passwordHash = resultSet.getString("password_hash");
 
             if (!getHashedPassword(password.getText()).equals(passwordHash)) {

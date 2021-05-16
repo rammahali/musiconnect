@@ -31,3 +31,16 @@
     -fx-background-color: #290537;
 }
 
+.dashboard-menu-button{
+    -fx-background-color: #20001E;
+    -fx-background-radius: 20;
+}
+
+.dashboard-menu-button:hover{
+    -fx-background-color: #4E0969;
+    -fx-background-radius: 20;
+}
+
+.playlist{
+    -fx-background-color: #20001E;
+}

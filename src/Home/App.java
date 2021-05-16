@@ -16,23 +16,23 @@ import java.sql.Connection;
 import static Home.Helper.setupDB;
 
 public class App extends Application {
-    double x,y;
+    double x, y;
     public static Connection connection;
-    private static Scene scene;
+    public static Scene scene;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         String url = "jdbc:postgresql://localhost:5432/musiconnect?user=postgres&password=postgres";
         connection = setupDB(url);
         scene = new Scene(loadFXML("login"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         scene.setOnMousePressed(mouseEvent -> {
             x = mouseEvent.getSceneX();
-            y= mouseEvent.getSceneY();
+            y = mouseEvent.getSceneY();
         });
         scene.setOnMouseDragged(mouseEvent -> {
-            primaryStage.setX(mouseEvent.getScreenX()-x);
-            primaryStage.setY(mouseEvent.getScreenY()-y);
+            primaryStage.setX(mouseEvent.getScreenX() - x);
+            primaryStage.setY(mouseEvent.getScreenY() - y);
         });
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -42,7 +42,8 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
-    public static void showError(String header,String message){
+
+    public static void showError(String header, String message) {
         TrayNotification notification = new TrayNotification();
         notification.setTitle(header);
         notification.setMessage(message);
@@ -50,7 +51,8 @@ public class App extends Application {
         notification.setAnimationType(AnimationType.POPUP);
         notification.showAndDismiss(Duration.seconds(3));
     }
-    public static void showSuccessMessage(String header,String message){
+
+    public static void showSuccessMessage(String header, String message) {
         TrayNotification notification = new TrayNotification();
         notification.setTitle(header);
         notification.setMessage(message);
@@ -58,7 +60,8 @@ public class App extends Application {
         notification.setAnimationType(AnimationType.POPUP);
         notification.showAndDismiss(Duration.seconds(3));
     }
-    public static void showInfoMessage(String header,String message){
+
+    public static void showInfoMessage(String header, String message) {
         TrayNotification notification = new TrayNotification();
         notification.setTitle(header);
         notification.setMessage(message);
@@ -68,9 +71,14 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLS/"+fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLS/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
+
+    public static FXMLLoader loaderFactory(String fxml) throws IOException {
+        return new FXMLLoader(App.class.getResource("FXMLS/" + fxml + ".fxml"));
+    }
+
 
     public static void main(String[] args) {
         launch(args);
