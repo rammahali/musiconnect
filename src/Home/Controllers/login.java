@@ -2,7 +2,9 @@ package Home.Controllers;
 
 import Home.App;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -37,7 +39,6 @@ public class login implements Initializable {
     private void onLoginClick() throws SQLException {
         String query = String.format("SELECT password_hash FROM app_user WHERE email = '%s'", email.getText());
         ResultSet resultSet = executeQuery(query);
-
         if (!resultSet.next()) {
             App.showError("Incorrect email or password", "please try again");
             return;
@@ -48,6 +49,21 @@ public class login implements Initializable {
             App.showError("Incorrect email or password", "please try again");
         } else {
             App.showSuccessMessage("Successful login","You are now logged in");
+
+            try {
+                FXMLLoader loader = new FXMLLoader(App.class.getResource("FXMLS/userPlaylists.fxml"));
+                Parent load = loader.load();
+                userPlaylists controller = loader.<userPlaylists>getController();
+                controller.getUserData(email.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            App.showSuccessMessage("Account has been created","You are now logged in");
+            try {
+                App.navigateTo("userPlaylists");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

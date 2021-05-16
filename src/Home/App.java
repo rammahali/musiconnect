@@ -42,6 +42,11 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
+    public static void navigateAndPassTo(Parent parent) throws IOException {
+        scene.setRoot(parent);
+    }
+
+
     public static void showError(String header,String message){
         TrayNotification notification = new TrayNotification();
         notification.setTitle(header);

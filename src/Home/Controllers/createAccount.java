@@ -4,7 +4,9 @@ import Home.App;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
@@ -15,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -71,7 +74,20 @@ public class createAccount implements Initializable {
             String query = String.format("INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES ('%s', '%s', '%s', %d, '%s')",
                     name.getText(), email.getText(), getHashedPassword(password.getText()), 1, profileImagePath);
             execute(query);
+            try {
+                FXMLLoader loader = new FXMLLoader(App.class.getResource("FXMLS/userPlaylists.fxml"));
+                Parent load = loader.load();
+                userPlaylists controller = loader.<userPlaylists>getController();
+                controller.getUserData(email.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             App.showSuccessMessage("Account has been created","You are now logged in");
+            try {
+                App.navigateTo("userPlaylists");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
