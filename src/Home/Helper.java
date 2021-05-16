@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 public class Helper {
     private Helper() {
     }
-    public static void execute(String query) {
+    public static boolean execute(String query) {
         try {
             System.out.println("query = " + query);
             System.out.println("Running query...");
@@ -16,9 +16,10 @@ public class Helper {
             st.execute(query);
 
             System.out.println("query successfully executed!");
-
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
