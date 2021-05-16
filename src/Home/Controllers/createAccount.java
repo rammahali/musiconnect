@@ -16,11 +16,10 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static Home.App.loaderFactory;
 import static Home.Helper.execute;
 import static Home.Helper.getHashedPassword;
 
@@ -39,11 +38,11 @@ public class createAccount implements Initializable {
     private Button createAccount;
     @FXML
     private Button login;
-    String profileImagePath="";
+    String profileImagePath = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-     importCountries();
+        importCountries();
     }
 
     @FXML
@@ -57,53 +56,54 @@ public class createAccount implements Initializable {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
+
     @FXML
     private void onCreateAccountClick() {
         // validation
-        if(name.getText().length()<4)
-            App.showError("Name cannot be less than 4 chars","please update your name");
-         else if(!isValidEmailAddress(email.getText()))
-            App.showError("InValid email address","please enter a Valid email");
-        else if(password.getText().length()<5)
-            App.showError("Password cannot be less than 5 chars","please update your password");
-        else if(countryList.getValue().toString().equals("Select country"))
-            App.showError("Country must be selected","please select your country");
+        if (name.getText().length() < 4)
+            App.showError("Name cannot be less than 4 chars", "please update your name");
+        else if (!isValidEmailAddress(email.getText()))
+            App.showError("InValid email address", "please enter a Valid email");
+        else if (password.getText().length() < 5)
+            App.showError("Password cannot be less than 5 chars", "please update your password");
+        else if (countryList.getValue().toString().equals("Select country"))
+            App.showError("Country must be selected", "please select your country");
 
-        else{
+        else {
             // TODO: change country to country code, not 1
             String query = String.format("INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES ('%s', '%s', '%s', %d, '%s')",
                     name.getText(), email.getText(), getHashedPassword(password.getText()), 1, profileImagePath);
             execute(query);
             try {
-                FXMLLoader loader = new FXMLLoader(App.class.getResource("FXMLS/userPlaylists.fxml"));
-                Parent load = loader.load();
-                userPlaylists controller = loader.<userPlaylists>getController();
+                FXMLLoader loader = loaderFactory("userPlaylists");
+                Parent root = loader.load();
+                userPlaylists controller = loader.getController();
+
                 controller.getUserData(email.getText());
+                App.scene.setRoot(root);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            App.showSuccessMessage("Account has been created","You are now logged in");
-            try {
-                App.navigateTo("userPlaylists");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            App.showSuccessMessage("Account has been created", "You are now logged in");
         }
 
     }
-    @FXML private void selectProfileImage(){
+
+    @FXML
+    private void selectProfileImage() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
-        if(selectedFile!=null){
+        if (selectedFile != null) {
             profileImageName.setText(selectedFile.getName());
-            profileImagePath=selectedFile.getPath();
+            profileImagePath = selectedFile.getPath();
         }
     }
 
-    @FXML private void importCountries(){
+    @FXML
+    private void importCountries() {
         ObservableList<String> countries = FXCollections.observableArrayList();
         countries.add("Select country");
-        String [] countryNames = Locale.getISOCountries();
+        String[] countryNames = Locale.getISOCountries();
         for (String country : countryNames) {
             Locale obj = new Locale("en", country);
             countries.add(obj.getDisplayCountry());

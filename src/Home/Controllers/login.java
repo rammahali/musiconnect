@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import static Home.App.loaderFactory;
 import static Home.Helper.executeQuery;
 import static Home.Helper.getHashedPassword;
 
@@ -48,22 +49,20 @@ public class login implements Initializable {
         if (!getHashedPassword(password.getText()).equals(passwordHash)) {
             App.showError("Incorrect email or password", "please try again");
         } else {
-            App.showSuccessMessage("Successful login","You are now logged in");
+            App.showSuccessMessage("Successful login", "You are now logged in");
 
             try {
-                FXMLLoader loader = new FXMLLoader(App.class.getResource("FXMLS/userPlaylists.fxml"));
-                Parent load = loader.load();
-                userPlaylists controller = loader.<userPlaylists>getController();
+                FXMLLoader loader = loaderFactory("userPlaylists");
+                Parent root = loader.load();
+                userPlaylists controller = loader.getController();
+
                 controller.getUserData(email.getText());
+                App.scene.setRoot(root);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            App.showSuccessMessage("Account has been created","You are now logged in");
-            try {
-                App.navigateTo("userPlaylists");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            App.showSuccessMessage("Account has been created", "You are now logged in");
         }
     }
 }
