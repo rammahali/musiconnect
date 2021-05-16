@@ -44,41 +44,32 @@ public class login implements Initializable {
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setString(1, email.getText());
             ResultSet resultSet = executeQuery(statement, query);
-
             if (!resultSet.next()) {
                 App.showError("Incorrect email or password", "please try again");
                 return;
             }
 
-        String passwordHash = resultSet.getString("password_hash");
-        if (!getHashedPassword(password.getText()).equals(passwordHash)) {
-            App.showError("Incorrect email or password", "please try again");
-        } else {
-            App.showSuccessMessage("Successful login", "You are now logged in");
-
-            try {
-                FXMLLoader loader = loaderFactory("userPlaylists");
-                Parent root = loader.load();
-                userPlaylists controller = loader.getController();
-
-                controller.getUserData(email.getText());
-                App.scene.setRoot(root);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            App.showSuccessMessage("Account has been created", "You are now logged in");
             String passwordHash = resultSet.getString("password_hash");
-
             if (!getHashedPassword(password.getText()).equals(passwordHash)) {
                 App.showError("Incorrect email or password", "please try again");
             } else {
                 App.showSuccessMessage("Successful login", "You are now logged in");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-            App.showError("Could not login", "Please contact your system administrator");
         }
+
+        try {
+            FXMLLoader loader = loaderFactory("userPlaylists");
+            Parent root = loader.load();
+            userPlaylists controller = loader.getController();
+
+            controller.getUserData(email.getText());
+            App.scene.setRoot(root);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
