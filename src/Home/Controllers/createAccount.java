@@ -73,24 +73,20 @@ public class createAccount implements Initializable {
                 statement.setString(3, getHashedPassword(password.getText()));
                 statement.setInt(4, countries.get(countryList.getValue()));
                 statement.setString(5, profileImagePath);
-
                 execute(statement, query);
+                App.setUserEmail(email.getText());
+                try {
+                    App.navigateTo("userPlaylists");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 App.showSuccessMessage("Account has been created", "You are now logged in");
 
             } catch (SQLException e) {
                 App.showError("Could not create account", "Please contact your system administrator");
                 e.printStackTrace();
             }
-            try {
-                FXMLLoader loader = loaderFactory("userPlaylists");
-                Parent root = loader.load();
-                userPlaylists controller = loader.getController();
 
-                controller.getUserData(email.getText());
-                App.scene.setRoot(root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             App.showSuccessMessage("Account has been created", "You are now logged in");
         }
     }
@@ -135,4 +131,15 @@ public class createAccount implements Initializable {
         countryList.getSelectionModel().select(0);
     }
 
+
+// try {
+//        FXMLLoader loader = loaderFactory("userPlaylists");
+//        Parent root = loader.load();
+//        userPlaylists controller = loader.getController();
+//
+//        controller.getUserData(email.getText());
+//        App.scene.setRoot(root);
+//    } catch (IOException e) {
+//        e.printStackTrace();
+//    }
 }

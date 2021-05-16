@@ -19,6 +19,15 @@ public class App extends Application {
     double x, y;
     public static Connection connection;
     public static Scene scene;
+    public static String userEmail="";
+
+    public static String getUserEmail() {
+        return userEmail;
+    }
+
+    public static void setUserEmail(String userEmail) {
+        App.userEmail = userEmail;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {

@@ -59,17 +59,11 @@ public class login implements Initializable {
             e.printStackTrace();
         }
 
+        App.setUserEmail(email.getText());
         try {
-            FXMLLoader loader = loaderFactory("userPlaylists");
-            Parent root = loader.load();
-            userPlaylists controller = loader.getController();
-
-            controller.getUserData(email.getText());
-            App.scene.setRoot(root);
-
+            App.navigateTo("userPlaylists");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

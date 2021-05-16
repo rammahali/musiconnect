@@ -40,7 +40,7 @@
                      </font>
                   </Button>
                   <Circle fx:id="profilePicture" fill="WHITE" layoutX="116.0" layoutY="124.0" radius="46.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Text fx:id="displayName" fill="#fcf3f3" layoutX="67.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Display Name">
+                  <Text fx:id="displayName" fill="#fcf3f3" layoutX="79.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Display Name">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>

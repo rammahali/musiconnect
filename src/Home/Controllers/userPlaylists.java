@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 import static Home.Helper.executeQuery;
 
 public class userPlaylists implements Initializable {
-    String email = "";
     @FXML
     private Circle profilePicture;
 
@@ -35,15 +34,14 @@ public class userPlaylists implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        getUserData();
     }
 
     @FXML
-    public void getUserData(String email) {
-        setEmail(email);
+    public void getUserData() {
         String query = "SELECT * FROM app_user WHERE email = ?";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
-            statement.setString(1, email);
+            statement.setString(1, App.getUserEmail());
             ResultSet resultSet = executeQuery(statement, query);
             resultSet.next();
             String username = resultSet.getString("name");
@@ -65,9 +63,5 @@ public class userPlaylists implements Initializable {
     }
 
 
-    public void setEmail(String email) {
-        System.out.println("EMAIL IS : " + email);
-        this.email = email;
-        System.out.println("email to use is : " + this.email);
-    }
+
 }
