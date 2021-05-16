@@ -94,6 +94,7 @@ public class createAccount implements Initializable {
             Locale obj = new Locale("en", country);
             countries.add(obj.getDisplayCountry());
         }
+        countries = countries.sorted();
         countryList.setItems(countries);
         countryList.getSelectionModel().select(0);
     }
