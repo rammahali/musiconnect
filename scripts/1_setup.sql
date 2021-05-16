@@ -1,13 +1,13 @@
-create database musiconnect;
+create
+database musiconnect;
 \c musiconnect;
 
 create table country
 (
-    id          serial      not null
+    id   int         not null
         constraint country_pkey
             primary key,
-    name        varchar(50) not null,
-    user_exists boolean default false
+    name varchar(50) not null
 );
 
 alter table country
@@ -15,13 +15,13 @@ alter table country
 
 create table app_user
 (
-    id            serial       not null
+    id            serial              not null
         constraint app_user_pkey
             primary key,
-    name          varchar(70)  not null,
-    email         varchar(255) not null,
-    password_hash varchar      not null,
-    country_id    integer      not null
+    name          varchar(70)         not null,
+    email         varchar(255) unique not null,
+    password_hash varchar             not null,
+    country_id    integer             not null
         constraint app_user_country_id_fkey
             references country,
     picture       varchar,

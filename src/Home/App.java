@@ -1,5 +1,4 @@
 package Home;
-//TODO: Add tray.jar to external libs
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +19,7 @@ public class App extends Application {
     double x,y;
     public static Connection connection;
     private static Scene scene;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         String url = "jdbc:postgresql://localhost:5432/musiconnect?user=postgres&password=postgres";
