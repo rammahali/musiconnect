@@ -19,8 +19,8 @@ public class Helper {
     private Helper() {
     }
 
-    public static int execute(PreparedStatement statement, String query) throws SQLException {
-        System.out.println("query = " + query);
+    public static int execute(PreparedStatement statement) throws SQLException {
+        System.out.println("query = " + statement.toString());
         System.out.println("Running query...");
 
         int affectedRows = statement.executeUpdate();

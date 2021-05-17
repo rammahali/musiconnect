@@ -121,7 +121,7 @@ public class users implements Initializable {
             statement.setString(3, getHashedPassword(password.getText()));
             statement.setInt(4, countries.get(country.getValue()));
             statement.setString(5, picturePath.getText());
-            execute(statement, query);
+            execute(statement);
             importUsers();
             App.showSuccessMessage("user " + name.getText() + " has been created", "");
             clear();
@@ -134,7 +134,7 @@ public class users implements Initializable {
             String query = "DELETE FROM  app_user WHERE email = ?";
             PreparedStatement statement = App.connection.prepareStatement(query);
             statement.setString(1, email.getText());
-            execute(statement, query);
+            execute(statement);
             App.showSuccessMessage("user " + name.getText() + " has been deleted", "");
             importUsers();
             clear();
@@ -156,7 +156,7 @@ public class users implements Initializable {
             statement.setString(6, email.getText());
 
 
-            if (execute(statement, query) != 0) {
+            if (execute(statement) != 0) {
                 importUsers();
                 App.showSuccessMessage("user " + name.getText() + " has been updated", "");
             } else {

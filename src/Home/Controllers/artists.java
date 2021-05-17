@@ -17,10 +17,10 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import static Home.Helper.executeQuery;
-import static Home.Helper.getUserData;
+import static Home.Helper.*;
 
 public class artists implements Initializable {
     @FXML
@@ -39,7 +39,7 @@ public class artists implements Initializable {
     private PasswordField password;
 
     @FXML
-    private ChoiceBox<String> Country;
+    private ChoiceBox<String> country;
 
     @FXML
     private TextField picturePath;
@@ -94,17 +94,38 @@ public class artists implements Initializable {
     }
 
     @FXML
-    private void addArtist() {
+    private void createArtist() throws SQLException {
+        if (!email.getText().equals("") && email.getText() != null) {
+            HashMap<String, Integer> countries = createCountries();
+            String query = "INSERT INTO artist(name, country_id, picture) VALUES (?, ?, ?)";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setString(1, name.getText());
+            statement.setInt(2, countries.get(country.getValue()));
+            statement.setString(3, picturePath.getText());
+            execute(statement);
+            importArtists();
+            App.showSuccessMessage("Artist " + name.getText() + " has been created", "");
+            clear();
+        }
+    }
+
+    private void clear() {
+        name.setText("");
+        email.setText("");
+        password.setText("");
+        picturePath.setText("");
+        country.getSelectionModel().select(0);
+    }
+
+
+    @FXML
+    private void updateArtist() {
+        Artist artist = ArtistsTable.getSelectionModel().getSelectedItem();
+        App.showInfoMessage(artist.getName(), "");
     }
 
     @FXML
     private void deleteArtist() {
-    }
-
-    @FXML
-    private void editArtist() {
-        Artist artist = ArtistsTable.getSelectionModel().getSelectedItem();
-        App.showInfoMessage(artist.getName(), "");
     }
 
     private void onRowClickAction() {

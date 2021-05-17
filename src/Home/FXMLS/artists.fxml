@@ -96,7 +96,7 @@
          </ImageView>
          <TextField fx:id="name" layoutX="26.0" layoutY="76.0" prefHeight="31.0" prefWidth="218.0"
                     promptText="name"/>
-         <ChoiceBox fx:id="Country" layoutX="26.0" layoutY="118.0" prefHeight="31.0" prefWidth="218.0"/>
+         <ChoiceBox fx:id="country" layoutX="26.0" layoutY="118.0" prefHeight="31.0" prefWidth="218.0"/>
          <TextField fx:id="picturePath" editable="false" layoutX="28.0" layoutY="159.0" prefHeight="31.0"
                     prefWidth="167.0" promptText="Profile picture"/>
          <Button id="myPlayLists" fx:id="navigate1" layoutX="196.0" layoutY="159.0" mnemonicParsing="false"
@@ -106,10 +106,10 @@
             </font>
          </Button>
          <Button id="myPlayLists" fx:id="add" layoutX="28.0" layoutY="297.0" mnemonicParsing="false"
-                 onAction="#addArtist" prefHeight="31.0" prefWidth="71.0" styleClass="container-button"
+                 onAction="#createArtist" prefHeight="31.0" prefWidth="71.0" styleClass="container-button"
                  text="Create"/>
          <Button id="myPlayLists" fx:id="edit" layoutX="107.0" layoutY="298.0" mnemonicParsing="false"
-                 onAction="#editArtist" prefHeight="31.0" prefWidth="71.0" styleClass="container-button"
+                 onAction="#updateArtist" prefHeight="31.0" prefWidth="71.0" styleClass="container-button"
                  text="Update"/>
          <Button id="myPlayLists" fx:id="delete" layoutX="185.0" layoutY="298.0" mnemonicParsing="false"
                  onAction="#deleteArtist" prefHeight="31.0" prefWidth="71.0" styleClass="container-button"

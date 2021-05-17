@@ -4,10 +4,7 @@ import Home.App;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,7 +19,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static Home.App.loaderFactory;
 import static Home.Helper.*;
 
 public class createAccount implements Initializable {
@@ -78,7 +74,7 @@ public class createAccount implements Initializable {
                 statement.setString(3, getHashedPassword(password.getText()));
                 statement.setInt(4, countries.get(countryList.getValue()));
                 statement.setString(5, profileImagePath);
-                execute(statement, query);
+                execute(statement);
                 App.setUserEmail(email.getText());
                 try {
                     App.navigateTo("userPlaylists");
