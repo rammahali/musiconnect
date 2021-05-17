@@ -1,6 +1,7 @@
 package Home.Controllers;
 
 import Home.App;
+import Home.Helper;
 import Home.Modules.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,13 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -27,9 +25,12 @@ import java.util.ResourceBundle;
 import static Home.Helper.*;
 
 public class users implements Initializable {
-    @FXML Text displayName;
-    @FXML Circle profilePicture;
-    @FXML ChoiceBox navigator;
+    @FXML
+    Text displayName;
+    @FXML
+    Circle profilePicture;
+    @FXML
+    ChoiceBox<String> navigator;
     @FXML
     private TextField name;
 
@@ -62,80 +63,100 @@ public class users implements Initializable {
 
     @FXML
     private TableColumn<User, String> colPath;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-         instantiateAdmin();
-         populateNavigator();
-          importUsers();
-          importCountries();
+        instantiateAdmin(displayName, profilePicture);
+        populateNavigator();
+        importUsers();
+        importCountries();
     }
 
 
-    @FXML private void importUsers(){
+    @FXML
+    private void importUsers() {
         final ObservableList<User> data = FXCollections.observableArrayList();
-         ID.setCellValueFactory(new PropertyValueFactory<User, Integer>("ID"));
-         colName.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
-         colEmail.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
-         colCountry.setCellValueFactory(new PropertyValueFactory<User, String>("country"));
-         colPath.setCellValueFactory(new PropertyValueFactory<User, String>("picture"));
-         String query = "SELECT * FROM app_user ";
+        ID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
+        colPath.setCellValueFactory(new PropertyValueFactory<>("picture"));
+        String query = "SELECT * FROM app_user ORDER BY id ASC";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             ResultSet resultSet = executeQuery(statement, query);
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                String name =resultSet.getString("name");
-                String email =resultSet.getString("email");
-                String picture =resultSet.getString("picture");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                String picture = resultSet.getString("picture");
                 int countryID = resultSet.getInt("country_id");
                 String country = getCountry(countryID);
-                data.add(new User(id,name,email,country,picture));
+                data.add(new User(id, name, email, country, picture));
             }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-         usersTable.setItems(data);
-         usersTable.getSortOrder().add(ID);
-         usersTable.sort();
+        usersTable.setItems(data);
     }
-   @FXML private void createUser() throws SQLException {
-       if(email.getText()!=""&&email.getText()!=null) {
-           String emailQuery = "SELECT password_hash FROM app_user WHERE email = ?";
 
-           PreparedStatement emailStatement = App.connection.prepareStatement(emailQuery);
-           emailStatement.setString(1, email.getText());
-           ResultSet emailResult = executeQuery(emailStatement, emailQuery);
-           if (emailResult.next()) {
-               App.showError("this email already exists", "please change the email");
-               return;
-           }
-           HashMap<String, Integer> countries = createCountries();
-           String query = "INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES (?, ?, ?, ?, ?)";
-           PreparedStatement statement = App.connection.prepareStatement(query);
-           statement.setString(1, name.getText());
-           statement.setString(2, email.getText());
-           statement.setString(3, getHashedPassword(password.getText()));
-           statement.setInt(4, countries.get(country.getValue()));
-           statement.setString(5, picturePath.getText());
-           execute(statement, query);
-           importUsers();
-           App.showSuccessMessage("user " + name.getText() + " has been created", "");
-           clear();
-       }
-   }
-    @FXML private void deleteUser() throws SQLException {
-        if(email.getText()!=null&&email.getText()!="") {
+    @FXML
+    private void createUser() throws SQLException {
+        if (email.getText() != "" && email.getText() != null) {
+            String emailQuery = "SELECT password_hash FROM app_user WHERE email = ?";
+
+            PreparedStatement emailStatement = App.connection.prepareStatement(emailQuery);
+            emailStatement.setString(1, email.getText());
+            ResultSet emailResult = executeQuery(emailStatement, emailQuery);
+            if (emailResult.next()) {
+                App.showError("this email already exists", "please change the email");
+                return;
+            }
+            HashMap<String, Integer> countries = createCountries();
+            String query = "INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setString(1, name.getText());
+            statement.setString(2, email.getText());
+            statement.setString(3, getHashedPassword(password.getText()));
+            statement.setInt(4, countries.get(country.getValue()));
+            statement.setString(5, picturePath.getText());
+            execute(statement, query);
+            importUsers();
+            App.showSuccessMessage("user " + name.getText() + " has been created", "");
+            clear();
+        }
+    }
+
+    @FXML
+    private void deleteUser() throws SQLException {
+        if (email.getText() != null && email.getText() != "") {
             String query = "DELETE FROM  app_user WHERE email = ?";
             PreparedStatement statement = App.connection.prepareStatement(query);
-             statement.setString(1, email.getText());
+            statement.setString(1, email.getText());
             execute(statement, query);
             App.showSuccessMessage("user " + name.getText() + " has been deleted", "");
             importUsers();
             clear();
         }
     }
-    @FXML private void updateUser() throws SQLException {
-        if(email.getText()!=""&&email.getText()!=null) {
+
+    @FXML
+    private void addUser() {
+    }
+
+    @FXML
+    private void deleteUser() {
+    }
+
+    @FXML
+    private void editUser() {
+        User user = usersTable.getSelectionModel().getSelectedItem();
+        App.showInfoMessage(user.getName(), "");
+    }
+
+    @FXML
+    private void updateUser() throws SQLException {
+        if (email.getText() != "" && email.getText() != null) {
             User user = usersTable.getSelectionModel().getSelectedItem();
             HashMap<String, Integer> countries = createCountries();
             String query = "UPDATE  app_user SET name =?,email =?,password_hash =?,country_id =?,picture = ? WHERE email = ?";
@@ -151,7 +172,6 @@ public class users implements Initializable {
             App.showSuccessMessage("user " + name.getText() + " has been updated", "");
             clear();
         }
-
     }
 
     @FXML private void onRowClickAction() throws SQLException {
@@ -198,88 +218,57 @@ public class users implements Initializable {
         country.setItems(countries);
         country.getSelectionModel().select(0);
     }
+
+
     private String getCountry(int id) throws SQLException {
         String query = "SELECT * FROM country WHERE id = ?";
-         PreparedStatement statement = App.connection.prepareStatement(query);
-            statement.setInt(1, id);
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet resultSet = executeQuery(statement, query);
+        resultSet.next();
+        return resultSet.getString("name");
+    }
+
+
+    private void instantiateAdmin() {
+        String query = "SELECT * FROM app_user WHERE email = ?";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setString(1, App.getUserEmail());
             ResultSet resultSet = executeQuery(statement, query);
             resultSet.next();
-            String country = resultSet.getString("name");
-            return country;
+            String username = resultSet.getString("name");
+            String imagePath = resultSet.getString("picture");
+            displayName.setText(username);
+            File imageFile = new File(imagePath);
+            String imageLocation = imageFile.toURI().toString();
+            Image pic = new Image(imageLocation, false);
+            profilePicture.setFill(new ImagePattern(pic));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+    }
 
-
-   private void instantiateAdmin(){
-       String query = "SELECT * FROM app_user WHERE email = ?";
-       try (PreparedStatement statement = App.connection.prepareStatement(query)) {
-           statement.setString(1, App.getUserEmail());
-           ResultSet resultSet = executeQuery(statement, query);
-           resultSet.next();
-           String username = resultSet.getString("name");
-           String imagePath = resultSet.getString("picture");
-           displayName.setText(username);
-           File imageFile = new File(imagePath);
-           String imageLocation = imageFile.toURI().toString();
-           Image pic = new Image(imageLocation,false);
-           profilePicture.setFill(new ImagePattern(pic));
-
-       } catch (SQLException throwables) {
-           throwables.printStackTrace();
-       }
-   }
-    @FXML private void logoutApp() throws IOException {
+    @FXML
+    private void logoutApp() throws IOException {
         App.navigateTo("login");
     }
-    @FXML private void close()  {
+
+    @FXML
+    private void close() {
         App.close();
     }
-    private void populateNavigator(){
+
+    private void populateNavigator() {
         ObservableList<String> pages = FXCollections.observableArrayList();
-        pages.addAll("Dashboard","Users","Singers","Albums","Songs");
+        pages.addAll("Dashboard", "Users", "Artists", "Albums", "Songs");
         navigator.setItems(pages);
         navigator.getSelectionModel().select(1);
     }
 
-    @FXML private void navigate(){
-        int index = navigator.getSelectionModel().getSelectedIndex();
-        switch (index){
-            case 0:
-                try {
-                    App.navigateTo("adminPanel");
-                } catch (IOException e) {
-                   App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-            case 1:
-                try {
-                    App.navigateTo("users");
-                } catch (IOException e) {
-                    App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-            case 2:
-                try {
-                    App.navigateTo("singers");
-                } catch (IOException e) {
-                    App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-            case 3:
-                try {
-                    App.navigateTo("albums");
-                } catch (IOException e) {
-                    App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-            case 4:
-                try {
-                    App.navigateTo("songs");
-                } catch (IOException e) {
-                    App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-        }
-
+    @FXML
+    private void navigate() {
+        Helper.navigate(navigator);
     }
 
 

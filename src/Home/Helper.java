@@ -1,5 +1,14 @@
 package Home;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -68,6 +77,66 @@ public class Helper {
         return connection;
     }
 
+    public static void instantiateAdmin(Text displayName, Circle profilePicture) {
+        String query = "SELECT * FROM app_user WHERE email = ?";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setString(1, App.getUserEmail());
+            ResultSet resultSet = executeQuery(statement, query);
+            resultSet.next();
+            String username = resultSet.getString("name");
+            String imagePath = resultSet.getString("picture");
+            displayName.setText(username);
+            File imageFile = new File(imagePath);
+            String imageLocation = imageFile.toURI().toString();
+            Image pic = new Image(imageLocation, false);
+            profilePicture.setFill(new ImagePattern(pic));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    @FXML
+    public static void navigate(ChoiceBox<String> navigator) {
+        int index = navigator.getSelectionModel().getSelectedIndex();
+        switch (index) {
+            case 0:
+                try {
+                    App.navigateTo("adminPanel");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+            case 1:
+                try {
+                    App.navigateTo("users");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+            case 2:
+                try {
+                    App.navigateTo("artists");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+            case 3:
+                try {
+                    App.navigateTo("albums");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+            case 4:
+                try {
+                    App.navigateTo("songs");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+        }
+
+    }
     public static HashMap<String, Integer> createCountries() {
         HashMap<String, Integer> countriesMap = new HashMap<>();
         countriesMap.put("Aruba", 533);

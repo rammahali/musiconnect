@@ -1,6 +1,7 @@
 package Home.Controllers;
 
 import Home.App;
+import Home.Helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,119 +23,94 @@ import java.util.ResourceBundle;
 import static Home.Helper.executeQuery;
 
 public class adminPanel implements Initializable {
-    @FXML Text displayName;
-    @FXML Circle profilePicture;
-    @FXML ChoiceBox navigator;
+    @FXML
+    Text displayName;
+    @FXML
+    Circle profilePicture;
+    @FXML
+    ChoiceBox<String> navigator;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-         instantiateAdmin();
-         populateNavigator();
+        instantiateAdmin();
+        populateNavigator();
     }
 
 
-   private void instantiateAdmin(){
-       String query = "SELECT * FROM app_user WHERE email = ?";
-       try (PreparedStatement statement = App.connection.prepareStatement(query)) {
-           statement.setString(1, App.getUserEmail());
-           ResultSet resultSet = executeQuery(statement, query);
-           resultSet.next();
-           String username = resultSet.getString("name");
-           String imagePath = resultSet.getString("picture");
-           displayName.setText(username);
-           File imageFile = new File(imagePath);
-           String imageLocation = imageFile.toURI().toString();
-           Image pic = new Image(imageLocation,false);
-           profilePicture.setFill(new ImagePattern(pic));
+    private void instantiateAdmin() {
+        String query = "SELECT * FROM app_user WHERE email = ?";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setString(1, App.getUserEmail());
+            ResultSet resultSet = executeQuery(statement, query);
+            resultSet.next();
+            String username = resultSet.getString("name");
+            String imagePath = resultSet.getString("picture");
+            displayName.setText(username);
+            File imageFile = new File(imagePath);
+            String imageLocation = imageFile.toURI().toString();
+            Image pic = new Image(imageLocation, false);
+            profilePicture.setFill(new ImagePattern(pic));
 
-       } catch (SQLException throwables) {
-           throwables.printStackTrace();
-       }
-   }
-    @FXML private void logoutApp() throws IOException {
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void logoutApp() throws IOException {
         App.navigateTo("login");
     }
-    @FXML private void close()  {
+
+    @FXML
+    private void close() {
         App.close();
     }
-    private void populateNavigator(){
+
+    private void populateNavigator() {
         ObservableList<String> pages = FXCollections.observableArrayList();
-        pages.addAll("Dashboard","Users","Singers","Albums","Songs");
+        pages.addAll("Dashboard", "Users", "Artists", "Albums", "Songs");
         navigator.setItems(pages);
         navigator.getSelectionModel().select(0);
     }
 
-    @FXML private void navigate(){
-        int index = navigator.getSelectionModel().getSelectedIndex();
-        switch (index){
-            case 0:
-                try {
-                    App.navigateTo("adminPanel");
-                } catch (IOException e) {
-                   App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-            case 1:
-                try {
-                    App.navigateTo("users");
-                } catch (IOException e) {
-                   // App.showInfoMessage("Page not found","we couldn't find this page...");
-                    e.printStackTrace();
-                }
-                break;
-            case 2:
-                try {
-                    App.navigateTo("singers");
-                } catch (IOException e) {
-                    App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-            case 3:
-                try {
-                    App.navigateTo("albums");
-                } catch (IOException e) {
-                    App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-            case 4:
-                try {
-                    App.navigateTo("songs");
-                } catch (IOException e) {
-                    App.showInfoMessage("Page not found","we couldn't find this page...");
-                }
-                break;
-        }
-
+    @FXML
+    private void navigate() {
+        Helper.navigate(navigator);
     }
 
-    @FXML private void gotoUsers(){
+    @FXML
+    private void gotoUsers() {
         try {
             App.navigateTo("users");
         } catch (IOException e) {
-           // App.showInfoMessage("Section not found","we couldn't find this section...");
-            e.printStackTrace();
+            App.showInfoMessage("Section not found","we couldn't find this section...");
         }
     }
 
-    @FXML private void gotoSingers(){
+    @FXML
+    private void gotoArtists() {
         try {
-            App.navigateTo("singers");
+            App.navigateTo("artists");
         } catch (IOException e) {
             App.showInfoMessage("Section not found","we couldn't find this section...");
         }
     }
-    @FXML private void gotoAlbums(){
+
+    @FXML
+    private void gotoAlbums() {
         try {
             App.navigateTo("albums");
         } catch (IOException e) {
-            App.showInfoMessage("Section not found","we couldn't find this section...");
+            App.showInfoMessage("Section not found", "we couldn't find this section...");
         }
     }
 
-    @FXML private void gotoSongs(){
+    @FXML
+    private void gotoSongs() {
         try {
             App.navigateTo("songs");
         } catch (IOException e) {
-            App.showInfoMessage("Section not found","we couldn't find this section...");
+            App.showInfoMessage("Section not found", "we couldn't find this section...");
         }
     }
 
