@@ -63,7 +63,7 @@ public class users implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
          instantiateAdmin();
          populateNavigator();
-        importUsers();
+          importUsers();
     }
 
 
@@ -97,6 +97,12 @@ public class users implements Initializable {
     @FXML private void deleteUser(){
     }
     @FXML private void editUser(){
+        User user =usersTable.getSelectionModel().getSelectedItem();
+        App.showInfoMessage(user.getName(),"");
+    }
+
+    private void onRowClickAction(){
+
     }
     private String getCountry(int id) throws SQLException {
         String query = "SELECT * FROM country WHERE id = ?";

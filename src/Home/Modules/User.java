@@ -1,13 +1,9 @@
 package Home.Modules;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-
 public class User {
     private int ID;
     private String name;
     private String email;
-
     private String country;
     private String picture;
 

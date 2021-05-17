@@ -102,9 +102,9 @@
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button id="myPlayLists" fx:id="add" layoutX="37.0" layoutY="298.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="63.0" styleClass="container-button" text="Add" />
-                  <Button id="myPlayLists" fx:id="edit" layoutX="112.0" layoutY="298.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="63.0" styleClass="container-button" text="Edit" />
-                  <Button id="myPlayLists" fx:id="delete" layoutX="187.0" layoutY="298.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="63.0" styleClass="container-button" text="Delete" />
+                  <Button id="myPlayLists" fx:id="add" layoutX="28.0" layoutY="297.0" mnemonicParsing="false" onAction="#addUser" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Create" />
+                  <Button id="myPlayLists" fx:id="edit" layoutX="107.0" layoutY="298.0" mnemonicParsing="false" onAction="#editUser" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Update" />
+                  <Button id="myPlayLists" fx:id="delete" layoutX="185.0" layoutY="298.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Delete" />
                </children>
             </Pane>
             <TableView fx:id="usersTable" layoutX="261.0" layoutY="155.0" prefHeight="312.0" prefWidth="411.0" styleClass="list-container">
