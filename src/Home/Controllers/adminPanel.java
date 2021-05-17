@@ -77,7 +77,8 @@ public class adminPanel implements Initializable {
                 try {
                     App.navigateTo("users");
                 } catch (IOException e) {
-                    App.showInfoMessage("Page not found","we couldn't find this page...");
+                   // App.showInfoMessage("Page not found","we couldn't find this page...");
+                    e.printStackTrace();
                 }
                 break;
             case 2:
@@ -109,7 +110,8 @@ public class adminPanel implements Initializable {
         try {
             App.navigateTo("users");
         } catch (IOException e) {
-            App.showInfoMessage("Section not found","we couldn't find this section...");
+           // App.showInfoMessage("Section not found","we couldn't find this section...");
+            e.printStackTrace();
         }
     }
 

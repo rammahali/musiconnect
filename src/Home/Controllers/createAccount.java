@@ -71,7 +71,6 @@ public class createAccount implements Initializable {
 
         if (isValidAccountCreation()) {
             HashMap<String, Integer> countries = createCountries();
-
             String query = "INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement statement = App.connection.prepareStatement(query)) {
                 statement.setString(1, name.getText());

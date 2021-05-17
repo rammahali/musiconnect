@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +20,11 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static Home.Helper.executeQuery;
+import static Home.Helper.*;
 
 public class users implements Initializable {
     @FXML Text displayName;
@@ -37,7 +40,7 @@ public class users implements Initializable {
     private PasswordField password;
 
     @FXML
-    private ChoiceBox<String> Country;
+    private ChoiceBox<String> country;
 
     @FXML
     private TextField picturePath;
@@ -64,6 +67,7 @@ public class users implements Initializable {
          instantiateAdmin();
          populateNavigator();
           importUsers();
+          importCountries();
     }
 
 
@@ -91,18 +95,108 @@ public class users implements Initializable {
             throwables.printStackTrace();
         }
          usersTable.setItems(data);
+         usersTable.getSortOrder().add(ID);
+         usersTable.sort();
     }
-   @FXML private void addUser(){
+   @FXML private void createUser() throws SQLException {
+       if(email.getText()!=""&&email.getText()!=null) {
+           String emailQuery = "SELECT password_hash FROM app_user WHERE email = ?";
+
+           PreparedStatement emailStatement = App.connection.prepareStatement(emailQuery);
+           emailStatement.setString(1, email.getText());
+           ResultSet emailResult = executeQuery(emailStatement, emailQuery);
+           if (emailResult.next()) {
+               App.showError("this email already exists", "please change the email");
+               return;
+           }
+           HashMap<String, Integer> countries = createCountries();
+           String query = "INSERT INTO app_user(name, email, password_hash, country_id, picture) VALUES (?, ?, ?, ?, ?)";
+           PreparedStatement statement = App.connection.prepareStatement(query);
+           statement.setString(1, name.getText());
+           statement.setString(2, email.getText());
+           statement.setString(3, getHashedPassword(password.getText()));
+           statement.setInt(4, countries.get(country.getValue()));
+           statement.setString(5, picturePath.getText());
+           execute(statement, query);
+           importUsers();
+           App.showSuccessMessage("user " + name.getText() + " has been created", "");
+           clear();
+       }
    }
-    @FXML private void deleteUser(){
+    @FXML private void deleteUser() throws SQLException {
+        if(email.getText()!=null&&email.getText()!="") {
+            String query = "DELETE FROM  app_user WHERE email = ?";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+             statement.setString(1, email.getText());
+            execute(statement, query);
+            App.showSuccessMessage("user " + name.getText() + " has been deleted", "");
+            importUsers();
+            clear();
+        }
     }
-    @FXML private void editUser(){
+    @FXML private void updateUser() throws SQLException {
+        if(email.getText()!=""&&email.getText()!=null) {
+            User user = usersTable.getSelectionModel().getSelectedItem();
+            HashMap<String, Integer> countries = createCountries();
+            String query = "UPDATE  app_user SET name =?,email =?,password_hash =?,country_id =?,picture = ? WHERE email = ?";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setString(1, name.getText());
+            statement.setString(2, email.getText());
+            statement.setString(3, getHashedPassword(password.getText()));
+            statement.setInt(4, countries.get(country.getValue()));
+            statement.setString(5, picturePath.getText());
+            statement.setString(6, email.getText());
+            execute(statement, query);
+            importUsers();
+            App.showSuccessMessage("user " + name.getText() + " has been updated", "");
+            clear();
+        }
+
+    }
+
+    @FXML private void onRowClickAction() throws SQLException {
         User user =usersTable.getSelectionModel().getSelectedItem();
-        App.showInfoMessage(user.getName(),"");
+        if(user!=null){
+            name.setText(user.getName());
+            email.setText(user.getEmail());
+            picturePath.setText(user.getPicture());
+            String query = "SELECT * FROM app_user WHERE email = ?";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setString(1, email.getText());
+            ResultSet resultSet = executeQuery(statement, query);
+            resultSet.next();
+            int countryID = resultSet.getInt("country_id");
+            String country = getCountry(countryID);
+            this.country.getSelectionModel().select(country);
+        }
     }
-
-    private void onRowClickAction(){
-
+    private void clear(){
+        name.setText("");
+        email.setText("");
+        password.setText("");
+        picturePath.setText("");
+        country.getSelectionModel().select(0);
+    }
+    @FXML
+    private void selectProfileImage() {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            picturePath.setText(selectedFile.getPath());
+        }
+    }
+    @FXML
+    private void importCountries() {
+        ObservableList<String> countries = FXCollections.observableArrayList();
+        countries.add("Select country");
+        String[] countryNames = Locale.getISOCountries();
+        for (String country : countryNames) {
+            Locale obj = new Locale("en", country);
+            countries.add(obj.getDisplayCountry());
+        }
+        countries = countries.sorted();
+        country.setItems(countries);
+        country.getSelectionModel().select(0);
     }
     private String getCountry(int id) throws SQLException {
         String query = "SELECT * FROM country WHERE id = ?";
