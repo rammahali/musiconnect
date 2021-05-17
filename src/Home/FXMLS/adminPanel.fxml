@@ -35,7 +35,7 @@
                      </font>
                   </Text>
                   <Circle fx:id="profilePicture" fill="WHITE" layoutX="116.0" layoutY="124.0" radius="46.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Text fx:id="displayName" fill="#fcf3f3" layoutX="79.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Display Name">
+                  <Text fx:id="displayName" fill="#fcf3f3" layoutX="72.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Display Name" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
@@ -45,12 +45,17 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button id="myPlayLists" fx:id="exit" layoutX="25.0" layoutY="394.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="205.0" styleClass="menu-button" text="Exit App" textFill="WHITE">
+                  <Button id="myPlayLists" fx:id="exit" layoutX="25.0" layoutY="394.0" mnemonicParsing="false" onAction="#close" prefHeight="50.0" prefWidth="205.0" styleClass="menu-button" text="Exit App" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <ChoiceBox fx:id="navigator" layoutX="26.0" layoutY="268.0" prefHeight="40.0" prefWidth="200.0" />
+                  <ChoiceBox fx:id="navigator" layoutX="34.0" layoutY="268.0" prefHeight="40.0" prefWidth="116.0" />
+                  <Button id="myPlayLists" fx:id="navigate" layoutX="158.0" layoutY="267.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="85.0" styleClass="flat-button" text="navigate" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children></Pane>
             <Pane layoutX="240.0" prefHeight="121.0" prefWidth="732.0" styleClass="main-side-bar-color" stylesheets="@styleSheet.css">
                <children>
@@ -61,46 +66,62 @@
                   </Text>
                </children>
             </Pane>
-            <ImageView fx:id="users" fitHeight="92.0" fitWidth="118.0" layoutX="316.0" layoutY="189.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Resources/users.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="singers" fitHeight="98.0" fitWidth="101.0" layoutX="461.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Resources/singers.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="albums" fitHeight="85.0" fitWidth="85.0" layoutX="609.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Resources/albums.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="songs" fitHeight="85.0" fitWidth="85.0" layoutX="766.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Resources/music.png" />
-               </image>
-            </ImageView>
-            <Text fill="WHITE" layoutX="324.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="462.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Singers">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="617.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Albums">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="772.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Songs">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
+            <Pane fx:id="users" layoutX="302.0" layoutY="185.0" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+               <children>
+                  <ImageView fitHeight="92.0" fitWidth="118.0" layoutX="24.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/users.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="WHITE" layoutX="36.0" layoutY="128.435546875" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="singers" layoutX="462.0" layoutY="185.0" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="101.0" layoutX="23.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/singers.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="WHITE" layoutX="29.0" layoutY="128.435546875" strokeType="OUTSIDE" strokeWidth="0.0" text="Singers">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="usersHolder11" layoutX="618.0" layoutY="185.0" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+               <children>
+                  <ImageView fx:id="albums" fitHeight="92.0" fitWidth="118.0" layoutX="24.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/albums.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="WHITE" layoutX="36.0" layoutY="128.435546875" strokeType="OUTSIDE" strokeWidth="0.0" text="Albums">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="songs" layoutX="781.0" layoutY="185.0" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+               <children>
+                  <ImageView fitHeight="92.0" fitWidth="118.0" layoutX="24.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/music.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="WHITE" layoutX="36.0" layoutY="128.435546875" strokeType="OUTSIDE" strokeWidth="0.0" text="Songs">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
    </children>

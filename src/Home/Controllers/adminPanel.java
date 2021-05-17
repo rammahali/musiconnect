@@ -53,11 +53,16 @@ public class adminPanel implements Initializable {
     @FXML private void logoutApp() throws IOException {
         App.navigateTo("login");
     }
+    @FXML private void close()  {
+        App.close();
+    }
     private void populateNavigator(){
         ObservableList<String> pages = FXCollections.observableArrayList();
         pages.addAll("Dashboard","Users","Singers","Albums","Songs");
         navigator.setItems(pages);
         navigator.getSelectionModel().select(0);
     }
+
+
 
 }
