@@ -57,3 +57,18 @@
 .place-holder:hover{
     -fx-background-color: #290537;
 }
+.container{
+    -fx-background-color: #4E0969;
+}
+.list-container{
+    -fx-background-color: #4E0969;
+    -fx-text-fill: #FFFFFF;
+}
+.container-button{
+    -fx-background-color: #FFFFFF;
+}
+
+.container-button:hover{
+    -fx-background-color: #290537;
+    -fx-text-fill: #FFFFFF;
+}

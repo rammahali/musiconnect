@@ -51,7 +51,7 @@
                      </font>
                   </Button>
                   <ChoiceBox fx:id="navigator" layoutX="34.0" layoutY="268.0" prefHeight="40.0" prefWidth="116.0" />
-                  <Button id="myPlayLists" fx:id="navigate" layoutX="158.0" layoutY="267.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="85.0" styleClass="flat-button" text="navigate" textFill="WHITE">
+                  <Button id="myPlayLists" fx:id="navigate" layoutX="158.0" layoutY="267.0" mnemonicParsing="false" onAction="#navigate" prefHeight="40.0" prefWidth="85.0" styleClass="flat-button" text="navigate" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -66,7 +66,7 @@
                   </Text>
                </children>
             </Pane>
-            <Pane fx:id="users" layoutX="302.0" layoutY="185.0" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+            <Pane fx:id="users" layoutX="302.0" layoutY="185.0" onMouseClicked="#gotoUsers" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
                <children>
                   <ImageView fitHeight="92.0" fitWidth="118.0" layoutX="24.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -80,7 +80,7 @@
                   </Text>
                </children>
             </Pane>
-            <Pane fx:id="singers" layoutX="462.0" layoutY="185.0" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+            <Pane fx:id="singers" layoutX="462.0" layoutY="185.0" onMouseClicked="#gotoSingers" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
                <children>
                   <ImageView fitHeight="100.0" fitWidth="101.0" layoutX="23.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -94,7 +94,7 @@
                   </Text>
                </children>
             </Pane>
-            <Pane fx:id="usersHolder11" layoutX="618.0" layoutY="185.0" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+            <Pane fx:id="usersHolder11" layoutX="618.0" layoutY="185.0" onMouseClicked="#gotoAlbums" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
                <children>
                   <ImageView fx:id="albums" fitHeight="92.0" fitWidth="118.0" layoutX="24.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -108,7 +108,7 @@
                   </Text>
                </children>
             </Pane>
-            <Pane fx:id="songs" layoutX="781.0" layoutY="185.0" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+            <Pane fx:id="songs" layoutX="781.0" layoutY="185.0" onMouseClicked="#gotoSongs" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
                <children>
                   <ImageView fitHeight="92.0" fitWidth="118.0" layoutX="24.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
