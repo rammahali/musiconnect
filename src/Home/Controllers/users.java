@@ -13,6 +13,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -66,7 +67,7 @@ public class users implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        instantiateAdmin(displayName, profilePicture);
+        Helper.instantiateAdmin(displayName, profilePicture);
         populateNavigator();
         importUsers();
         importCountries();
@@ -81,7 +82,7 @@ public class users implements Initializable {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         colPath.setCellValueFactory(new PropertyValueFactory<>("picture"));
-        String query = "SELECT * FROM app_user ORDER BY id ASC";
+        String query = "SELECT * FROM app_user ORDER BY id";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             ResultSet resultSet = executeQuery(statement, query);
             while (resultSet.next()) {
@@ -102,7 +103,7 @@ public class users implements Initializable {
 
     @FXML
     private void createUser() throws SQLException {
-        if (email.getText() != "" && email.getText() != null) {
+        if (!email.getText().equals("") && email.getText() != null) {
             String emailQuery = "SELECT password_hash FROM app_user WHERE email = ?";
 
             PreparedStatement emailStatement = App.connection.prepareStatement(emailQuery);
@@ -129,7 +130,7 @@ public class users implements Initializable {
 
     @FXML
     private void deleteUser() throws SQLException {
-        if (email.getText() != null && email.getText() != "") {
+        if (email.getText() != null && !email.getText().equals("")) {
             String query = "DELETE FROM  app_user WHERE email = ?";
             PreparedStatement statement = App.connection.prepareStatement(query);
             statement.setString(1, email.getText());
@@ -140,24 +141,10 @@ public class users implements Initializable {
         }
     }
 
-    @FXML
-    private void addUser() {
-    }
-
-    @FXML
-    private void deleteUser() {
-    }
-
-    @FXML
-    private void editUser() {
-        User user = usersTable.getSelectionModel().getSelectedItem();
-        App.showInfoMessage(user.getName(), "");
-    }
 
     @FXML
     private void updateUser() throws SQLException {
-        if (email.getText() != "" && email.getText() != null) {
-            User user = usersTable.getSelectionModel().getSelectedItem();
+        if (!email.getText().equals("") && email.getText() != null) {
             HashMap<String, Integer> countries = createCountries();
             String query = "UPDATE  app_user SET name =?,email =?,password_hash =?,country_id =?,picture = ? WHERE email = ?";
             PreparedStatement statement = App.connection.prepareStatement(query);
@@ -167,16 +154,23 @@ public class users implements Initializable {
             statement.setInt(4, countries.get(country.getValue()));
             statement.setString(5, picturePath.getText());
             statement.setString(6, email.getText());
-            execute(statement, query);
-            importUsers();
-            App.showSuccessMessage("user " + name.getText() + " has been updated", "");
+
+
+            if (execute(statement, query) != 0) {
+                importUsers();
+                App.showSuccessMessage("user " + name.getText() + " has been updated", "");
+            } else {
+                App.showError("User does not exist", "");
+            }
             clear();
+
         }
     }
 
-    @FXML private void onRowClickAction() throws SQLException {
-        User user =usersTable.getSelectionModel().getSelectedItem();
-        if(user!=null){
+    @FXML
+    private void onRowClickAction() throws SQLException {
+        User user = usersTable.getSelectionModel().getSelectedItem();
+        if (user != null) {
             name.setText(user.getName());
             email.setText(user.getEmail());
             picturePath.setText(user.getPicture());
@@ -190,13 +184,15 @@ public class users implements Initializable {
             this.country.getSelectionModel().select(country);
         }
     }
-    private void clear(){
+
+    private void clear() {
         name.setText("");
         email.setText("");
         password.setText("");
         picturePath.setText("");
         country.getSelectionModel().select(0);
     }
+
     @FXML
     private void selectProfileImage() {
         FileChooser fileChooser = new FileChooser();
@@ -205,6 +201,7 @@ public class users implements Initializable {
             picturePath.setText(selectedFile.getPath());
         }
     }
+
     @FXML
     private void importCountries() {
         ObservableList<String> countries = FXCollections.observableArrayList();
@@ -229,25 +226,6 @@ public class users implements Initializable {
         return resultSet.getString("name");
     }
 
-
-    private void instantiateAdmin() {
-        String query = "SELECT * FROM app_user WHERE email = ?";
-        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
-            statement.setString(1, App.getUserEmail());
-            ResultSet resultSet = executeQuery(statement, query);
-            resultSet.next();
-            String username = resultSet.getString("name");
-            String imagePath = resultSet.getString("picture");
-            displayName.setText(username);
-            File imageFile = new File(imagePath);
-            String imageLocation = imageFile.toURI().toString();
-            Image pic = new Image(imageLocation, false);
-            profilePicture.setFill(new ImagePattern(pic));
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 
     @FXML
     private void logoutApp() throws IOException {

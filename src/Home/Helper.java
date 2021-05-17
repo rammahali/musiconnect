@@ -19,13 +19,14 @@ public class Helper {
     private Helper() {
     }
 
-    public static void execute(PreparedStatement statement, String query) throws SQLException {
+    public static int execute(PreparedStatement statement, String query) throws SQLException {
         System.out.println("query = " + query);
         System.out.println("Running query...");
 
-        statement.execute();
+        int affectedRows = statement.executeUpdate();
 
         System.out.println("query successfully executed!");
+        return affectedRows;
     }
 
     public static ResultSet executeQuery(PreparedStatement statement, String query) throws SQLException {
