@@ -2,7 +2,7 @@ package Home.Controllers;
 
 import Home.App;
 import Home.Helper;
-import Home.Modules.User;
+import Home.Modules.Artist;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 import static Home.Helper.executeQuery;
 import static Home.Helper.instantiateAdmin;
 
-public class users implements Initializable {
+public class artists implements Initializable {
     @FXML
     Text displayName;
     @FXML
@@ -45,73 +45,66 @@ public class users implements Initializable {
     private TextField picturePath;
 
     @FXML
-    private TableView<User> usersTable;
+    private TableView<Artist> ArtistsTable;
 
     @FXML
-    private TableColumn<User, Integer> ID;
+    private TableColumn<Artist, Integer> ID;
 
     @FXML
-    private TableColumn<User, String> colName;
+    private TableColumn<Artist, String> colName;
 
     @FXML
-    private TableColumn<User, String> colEmail;
+    private TableColumn<Artist, String> colCountry;
 
     @FXML
-    private TableColumn<User, String> colCountry;
-
-    @FXML
-    private TableColumn<User, String> colPath;
+    private TableColumn<Artist, String> colPath;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instantiateAdmin(displayName, profilePicture);
         populateNavigator();
-        importUsers();
+        importArtists();
     }
 
 
     @FXML
-    private void importUsers() {
-        System.out.println("IMPORT USERS FUNC CALLED");
-        final ObservableList<User> data = FXCollections.observableArrayList();
+    private void importArtists() {
+        System.out.println("IMPORT ARTISTS FUNC CALLED");
+        final ObservableList<Artist> data = FXCollections.observableArrayList();
         ID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        System.out.println("EMAIL COLUMN SET");
-
         colCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         colPath.setCellValueFactory(new PropertyValueFactory<>("picture"));
-        String query = "SELECT * FROM app_user ";
+        String query = "SELECT * FROM artist";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             ResultSet resultSet = executeQuery(statement, query);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                String email = resultSet.getString("email");
                 String picture = resultSet.getString("picture");
                 int countryID = resultSet.getInt("country_id");
                 String country = getCountry(countryID);
-                data.add(new User(id, name, email, country, picture));
+                data.add(new Artist(id, name, country, picture));
             }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        usersTable.setItems(data);
+        ArtistsTable.setItems(data);
     }
 
     @FXML
-    private void addUser() {
+    private void addArtist() {
     }
 
     @FXML
-    private void deleteUser() {
+    private void deleteArtist() {
     }
 
     @FXML
-    private void editUser() {
-        User user = usersTable.getSelectionModel().getSelectedItem();
-        App.showInfoMessage(user.getName(), "");
+    private void editArtist() {
+        Artist artist = ArtistsTable.getSelectionModel().getSelectedItem();
+        App.showInfoMessage(artist.getName(), "");
     }
 
     private void onRowClickAction() {
@@ -127,7 +120,6 @@ public class users implements Initializable {
         return resultSet.getString("name");
     }
 
-
     @FXML
     private void logoutApp() throws IOException {
         App.navigateTo("login");
@@ -142,7 +134,7 @@ public class users implements Initializable {
         ObservableList<String> pages = FXCollections.observableArrayList();
         pages.addAll("Dashboard", "Users", "Artists", "Albums", "Songs");
         navigator.setItems(pages);
-        navigator.getSelectionModel().select(1);
+        navigator.getSelectionModel().select(2);
     }
 
     @FXML

@@ -23,7 +23,7 @@ create table app_user
     password_hash varchar             not null,
     country_id    integer             not null
         constraint app_user_country_id_fkey
-            references country,
+            references country ON DELETE CASCADE,
     picture       varchar,
     is_admin      boolean default false
 );
@@ -35,10 +35,10 @@ create table follower_following
 (
     follower_id  integer not null
         constraint follower_following_follower_id_fkey
-            references app_user,
+            references app_user ON DELETE CASCADE,
     following_id integer not null
         constraint follower_following_following_id_fkey
-            references app_user,
+            references app_user ON DELETE CASCADE,
     constraint follower_following_pkey
         primary key (follower_id, following_id)
 );
@@ -52,7 +52,7 @@ create table subscription
         constraint subscription_pkey
             primary key
         constraint subscription_user_id_fkey
-            references app_user,
+            references app_user ON DELETE CASCADE,
     last_payment date    not null
 );
 
@@ -67,7 +67,7 @@ create table artist
     name       varchar not null,
     country_id integer not null
         constraint artist_country_id_fkey
-            references country,
+            references country ON DELETE CASCADE,
     picture    varchar
 );
 
@@ -93,11 +93,11 @@ create table album
     name         varchar not null,
     artist_id    integer not null
         constraint album_artist_id_fkey
-            references artist,
+            references artist ON DELETE CASCADE,
     release_date date,
     category_id  integer not null
         constraint album_category_id_fkey
-            references category,
+            references category ON DELETE CASCADE,
     picture      varchar
 );
 
@@ -112,7 +112,7 @@ create table song
     name         varchar not null,
     album_id     integer not null
         constraint song_album_id_fkey
-            references album,
+            references album ON DELETE CASCADE,
     length       integer not null,
     release_date date
 );
@@ -124,10 +124,10 @@ create table song_artist
 (
     song_id   integer not null
         constraint song_artist_song_id_fkey
-            references song,
+            references song ON DELETE CASCADE,
     artist_id integer not null
         constraint song_artist_artist_id_fkey
-            references artist,
+            references artist ON DELETE CASCADE,
     constraint song_artist_pkey
         primary key (song_id, artist_id)
 );
@@ -140,10 +140,10 @@ create table streams
 (
     song_id    integer not null
         constraint streams_song_id_fkey
-            references song,
+            references song ON DELETE CASCADE,
     country_id integer not null
         constraint streams_country_id_fkey
-            references country,
+            references country ON DELETE CASCADE,
     streams    bigint  not null,
     constraint streams_pkey
         primary key (song_id, country_id)
@@ -159,10 +159,10 @@ create table playlist
             primary key,
     user_id     integer not null
         constraint playlist_user_id_fkey
-            references app_user,
+            references app_user ON DELETE CASCADE,
     category_id integer not null
         constraint playlist_category_id_fkey
-            references category
+            references category ON DELETE CASCADE
 );
 
 alter table playlist
@@ -172,10 +172,10 @@ create table playlist_song
 (
     playlist_id integer not null
         constraint playlist_song_playlist_id_fkey
-            references playlist,
+            references playlist ON DELETE CASCADE,
     song_id     integer not null
         constraint playlist_song_song_id_fkey
-            references song,
+            references song ON DELETE CASCADE,
     constraint playlist_song_pkey
         primary key (playlist_id, song_id)
 );
