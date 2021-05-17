@@ -69,7 +69,7 @@
                               <Font name="Gubbi" size="32.0" />
                            </font>
                         </Text>
-                        <Button id="go" fx:id="login" layoutX="207.0" layoutY="217.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Login" textFill="#f5f3f3">
+                        <Button id="go" fx:id="login" layoutX="207.0" layoutY="217.0" mnemonicParsing="false" onAction="#onLoginClick" prefHeight="44.0" prefWidth="179.0" styleClass="auth-button" stylesheets="@styleSheet.css" text="Login" textFill="#f5f3f3">
                            <font>
                               <Font size="19.0" />
                            </font>
