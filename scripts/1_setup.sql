@@ -114,8 +114,7 @@ create table song
         constraint song_album_id_fkey
             references album,
     length       integer not null,
-    release_date date,
-    audio        varchar
+    release_date date
 );
 
 alter table song
