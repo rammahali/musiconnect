@@ -67,7 +67,7 @@ public class users implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Helper.instantiateAdmin(displayName, profilePicture);
+        Helper.getUserData(displayName, profilePicture);
         populateNavigator();
         importUsers();
         importCountries();
@@ -84,7 +84,7 @@ public class users implements Initializable {
         colPath.setCellValueFactory(new PropertyValueFactory<>("picture"));
         String query = "SELECT * FROM app_user ORDER BY id";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
-            ResultSet resultSet = executeQuery(statement, query);
+            ResultSet resultSet = executeQuery(statement);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
@@ -108,7 +108,7 @@ public class users implements Initializable {
 
             PreparedStatement emailStatement = App.connection.prepareStatement(emailQuery);
             emailStatement.setString(1, email.getText());
-            ResultSet emailResult = executeQuery(emailStatement, emailQuery);
+            ResultSet emailResult = executeQuery(emailStatement);
             if (emailResult.next()) {
                 App.showError("this email already exists", "please change the email");
                 return;
@@ -177,7 +177,7 @@ public class users implements Initializable {
             String query = "SELECT * FROM app_user WHERE email = ?";
             PreparedStatement statement = App.connection.prepareStatement(query);
             statement.setString(1, email.getText());
-            ResultSet resultSet = executeQuery(statement, query);
+            ResultSet resultSet = executeQuery(statement);
             resultSet.next();
             int countryID = resultSet.getInt("country_id");
             String country = getCountry(countryID);
@@ -221,7 +221,7 @@ public class users implements Initializable {
         String query = "SELECT * FROM country WHERE id = ?";
         PreparedStatement statement = App.connection.prepareStatement(query);
         statement.setInt(1, id);
-        ResultSet resultSet = executeQuery(statement, query);
+        ResultSet resultSet = executeQuery(statement);
         resultSet.next();
         return resultSet.getString("name");
     }

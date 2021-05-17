@@ -28,7 +28,7 @@ public class adminLogin implements Initializable {
 
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setString(1, email.getText());
-            ResultSet resultSet = executeQuery(statement, query);
+            ResultSet resultSet = executeQuery(statement);
             if (!resultSet.next()) {
                 App.showError("Incorrect email or password", "please try again");
                 return;

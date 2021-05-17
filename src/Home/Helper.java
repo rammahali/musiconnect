@@ -29,15 +29,12 @@ public class Helper {
         return affectedRows;
     }
 
-    public static ResultSet executeQuery(PreparedStatement statement, String query) throws SQLException {
+    public static ResultSet executeQuery(PreparedStatement statement) throws SQLException {
 
-        System.out.println("query = " + query);
+        System.out.println("query = " + statement.toString());
         System.out.println("Running query...");
 
-        ResultSet rs = statement.executeQuery();
-
-        System.out.println(rs.toString());
-        return rs;
+        return statement.executeQuery();
     }
 
     public static String getHashedPassword(String password) {
@@ -78,11 +75,11 @@ public class Helper {
         return connection;
     }
 
-    public static void instantiateAdmin(Text displayName, Circle profilePicture) {
+    public static void getUserData(Text displayName, Circle profilePicture) {
         String query = "SELECT * FROM app_user WHERE email = ?";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setString(1, App.getUserEmail());
-            ResultSet resultSet = executeQuery(statement, query);
+            ResultSet resultSet = executeQuery(statement);
             resultSet.next();
             String username = resultSet.getString("name");
             String imagePath = resultSet.getString("picture");
@@ -96,6 +93,7 @@ public class Helper {
             throwables.printStackTrace();
         }
     }
+
     @FXML
     public static void navigate(ChoiceBox<String> navigator) {
         int index = navigator.getSelectionModel().getSelectedIndex();

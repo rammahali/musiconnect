@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static Home.Helper.executeQuery;
-import static Home.Helper.instantiateAdmin;
+import static Home.Helper.getUserData;
 
 public class artists implements Initializable {
     @FXML
@@ -61,7 +61,7 @@ public class artists implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        instantiateAdmin(displayName, profilePicture);
+        getUserData(displayName, profilePicture);
         populateNavigator();
         importArtists();
     }
@@ -77,7 +77,7 @@ public class artists implements Initializable {
         colPath.setCellValueFactory(new PropertyValueFactory<>("picture"));
         String query = "SELECT * FROM artist";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
-            ResultSet resultSet = executeQuery(statement, query);
+            ResultSet resultSet = executeQuery(statement);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
@@ -115,7 +115,7 @@ public class artists implements Initializable {
         String query = "SELECT * FROM country WHERE id = ?";
         PreparedStatement statement = App.connection.prepareStatement(query);
         statement.setInt(1, id);
-        ResultSet resultSet = executeQuery(statement, query);
+        ResultSet resultSet = executeQuery(statement);
         resultSet.next();
         return resultSet.getString("name");
     }

@@ -38,22 +38,7 @@ public class adminPanel implements Initializable {
 
 
     private void instantiateAdmin() {
-        String query = "SELECT * FROM app_user WHERE email = ?";
-        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
-            statement.setString(1, App.getUserEmail());
-            ResultSet resultSet = executeQuery(statement, query);
-            resultSet.next();
-            String username = resultSet.getString("name");
-            String imagePath = resultSet.getString("picture");
-            displayName.setText(username);
-            File imageFile = new File(imagePath);
-            String imageLocation = imageFile.toURI().toString();
-            Image pic = new Image(imageLocation, false);
-            profilePicture.setFill(new ImagePattern(pic));
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        Helper.getUserData(displayName, profilePicture);
     }
 
     @FXML
