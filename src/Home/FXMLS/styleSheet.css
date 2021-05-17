@@ -44,3 +44,16 @@
 .playlist{
     -fx-background-color: #20001E;
 }
+
+.flat-button{
+    -fx-background-color: #4E0969;
+}
+.flat-button:hover{
+    -fx-background-color: #290537;
+}
+.place-holder{
+    -fx-background-color: #48115E;
+}
+.place-holder:hover{
+    -fx-background-color: #290537;
+}
