@@ -1,8 +1,11 @@
 package Home.Controllers;
 
 import Home.App;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -21,9 +24,11 @@ import static Home.Helper.executeQuery;
 public class adminPanel implements Initializable {
     @FXML Text displayName;
     @FXML Circle profilePicture;
+    @FXML ChoiceBox navigator;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+         instantiateAdmin();
+         populateNavigator();
     }
 
 
@@ -47,6 +52,12 @@ public class adminPanel implements Initializable {
    }
     @FXML private void logoutApp() throws IOException {
         App.navigateTo("login");
+    }
+    private void populateNavigator(){
+        ObservableList<String> pages = FXCollections.observableArrayList();
+        pages.addAll("Dashboard","Users","Singers","Albums","Songs");
+        navigator.setItems(pages);
+        navigator.getSelectionModel().select(0);
     }
 
 }
