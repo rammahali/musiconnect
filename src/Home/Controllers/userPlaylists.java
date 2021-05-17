@@ -4,9 +4,12 @@ import Home.App;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -47,8 +50,10 @@ public class userPlaylists implements Initializable {
             String username = resultSet.getString("name");
             String imagePath = resultSet.getString("picture");
             displayName.setText(username);
-//             Image pic = new Image(imagePath,false);
-//             profilePicture.setFill(new ImagePattern(pic));
+            File imageFile = new File(imagePath);
+            String imageLocation = imageFile.toURI().toString();
+            Image pic = new Image(imageLocation,false);
+             profilePicture.setFill(new ImagePattern(pic));
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
