@@ -1,5 +1,5 @@
 create
-database musiconnect;
+    database musiconnect;
 \c musiconnect;
 
 create table country
@@ -120,6 +120,22 @@ create table song
 
 alter table song
     owner to postgres;
+
+create table song_artist
+(
+    song_id   integer not null
+        constraint song_artist_song_id_fkey
+            references song,
+    artist_id integer not null
+        constraint song_artist_artist_id_fkey
+            references artist,
+    constraint song_artist_pkey
+        primary key (song_id, artist_id)
+);
+
+alter table song_artist
+    owner to postgres;
+
 
 create table streams
 (
