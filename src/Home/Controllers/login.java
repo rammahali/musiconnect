@@ -25,8 +25,7 @@ public class login implements Initializable {
     private TextField email;
     @FXML
     private PasswordField password;
-    @FXML
-    private Button go;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

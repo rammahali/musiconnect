@@ -36,10 +36,7 @@ public class createAccount implements Initializable {
     private TextField profileImageName;
     @FXML
     private PasswordField password;
-    @FXML
-    private Button createAccount;
-    @FXML
-    private Button login;
+
     String profileImagePath = "";
 
     @Override
