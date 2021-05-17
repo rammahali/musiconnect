@@ -38,6 +38,16 @@ public class login implements Initializable {
     }
 
     @FXML
+    private void onAdminPanelClick() throws IOException {
+        App.navigateTo("adminLogin");
+    }
+
+    @FXML
+    private void onCloseAppClick()  {
+        App.close();
+    }
+
+    @FXML
     private void onLoginClick() {
         String query = "SELECT password_hash FROM app_user WHERE email = ?";
 

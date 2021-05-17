@@ -100,6 +100,11 @@ public class App extends Application {
         return new FXMLLoader(App.class.getResource("FXMLS/" + fxml + ".fxml"));
     }
 
+    public static void close(){
+        Stage primary = (Stage) scene.getWindow();
+        primary.close();
+    }
+
 
     public static void main(String[] args) {
         launch(args);

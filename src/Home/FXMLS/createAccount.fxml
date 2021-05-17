@@ -41,6 +41,16 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
+                  <Button id="login" fx:id="exit" layoutY="423.0" mnemonicParsing="false" onAction="#onCloseAppClick" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Exit App" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button id="login" fx:id="adminPanel" layoutX="-1.0" layoutY="366.0" mnemonicParsing="false" onAction="#onAdminPanelClick" prefHeight="51.0" prefWidth="245.0" styleClass="menu-button" text="Admin Panel" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children></Pane>
             <Pane id="background" layoutX="240.0" prefHeight="479.0" prefWidth="730.0" styleClass="home-page-bg" stylesheets="@styleSheet.css">
                <children>
