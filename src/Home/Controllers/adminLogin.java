@@ -42,16 +42,15 @@ public class adminLogin implements Initializable {
             if (!getHashedPassword(password.getText()).equals(passwordHash)) {
                 App.showError("Incorrect email or password", "please try again");
             } else {
+                App.setUserEmail(email.getText());
+                try {
+                    App.navigateTo("adminPanel");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 App.showSuccessMessage("Successful login", "Welcome back");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        App.setUserEmail(email.getText());
-        try {
-            App.navigateTo("adminPanel");
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
