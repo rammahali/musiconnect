@@ -9,7 +9,6 @@ public class Artist {
     public Artist(int ID, String name, String country, String picture){
         this.ID =ID;
         this.name=name;
-
         this.country=country;
         this.picture=picture;
     }
