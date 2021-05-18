@@ -20,7 +20,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static Home.Helper.*;
@@ -67,10 +66,10 @@ public class users implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Helper.getUserData(displayName, profilePicture);
-        populateNavigator();
+        getUserData(displayName, profilePicture);
+        populateNavigator(navigator);
         importUsers();
-        importCountries();
+        importCountries(country);
     }
 
 
@@ -218,19 +217,6 @@ public class users implements Initializable {
         }
     }
 
-    @FXML
-    private void importCountries() {
-        ObservableList<String> countries = FXCollections.observableArrayList();
-        countries.add("Select country");
-        String[] countryNames = Locale.getISOCountries();
-        for (String country : countryNames) {
-            Locale obj = new Locale("en", country);
-            countries.add(obj.getDisplayCountry());
-        }
-        countries = countries.sorted();
-        country.setItems(countries);
-        country.getSelectionModel().select(0);
-    }
 
 
     private String getCountry(int id) throws SQLException {
@@ -253,17 +239,8 @@ public class users implements Initializable {
         App.close();
     }
 
-    private void populateNavigator() {
-        ObservableList<String> pages = FXCollections.observableArrayList();
-        pages.addAll("Dashboard", "Users", "Artists", "Albums", "Songs");
-        navigator.setItems(pages);
-        navigator.getSelectionModel().select(1);
-    }
-
     @FXML
     private void navigate() {
         Helper.navigate(navigator);
     }
-
-
 }

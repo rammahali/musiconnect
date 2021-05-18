@@ -1,5 +1,7 @@
 package Home;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
@@ -14,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Helper {
     private Helper() {
@@ -92,6 +95,26 @@ public class Helper {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static void populateNavigator(ChoiceBox<String> navigator) {
+        ObservableList<String> pages = FXCollections.observableArrayList();
+        pages.addAll("Dashboard", "Users", "Artists", "Albums", "Songs");
+        navigator.setItems(pages);
+        navigator.getSelectionModel().select(1);
+    }
+
+    public static void importCountries(ChoiceBox<String> country) {
+        ObservableList<String> countries = FXCollections.observableArrayList();
+        countries.add("Select country");
+        String[] countryNames = Locale.getISOCountries();
+        for (String countryName : countryNames) {
+            Locale obj = new Locale("en", countryName);
+            countries.add(obj.getDisplayCountry());
+        }
+        countries = countries.sorted();
+        country.setItems(countries);
+        country.getSelectionModel().select(0);
     }
 
     @FXML
