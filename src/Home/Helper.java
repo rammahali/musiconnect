@@ -130,7 +130,8 @@ public class Helper {
                 try {
                     App.navigateTo("songs");
                 } catch (IOException e) {
-                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                    e.printStackTrace();
+                    //App.showInfoMessage("Page not found", "we couldn't find this page...");
                 }
                 break;
         }

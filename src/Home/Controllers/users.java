@@ -145,7 +145,42 @@ public class users implements Initializable {
 
     @FXML
     private void updateUser() throws SQLException {
+        if (!email.getText().equals("") && email.getText() != null) {
+            User user =usersTable.getSelectionModel().getSelectedItem();
+            int id;
+            if(user==null)
+                id=-1;
+            else
+                id=user.getID();
+            String idQuery = "SELECT * FROM app_user WHERE id = ?";
 
+            PreparedStatement idStatement = App.connection.prepareStatement(idQuery);
+            idStatement.setInt(1, id);
+
+            ResultSet idResult = executeQuery(idStatement);
+            if (!idResult.next()) {
+                App.showError("user doesn't exist", "");
+                return;
+            }
+            HashMap<String, Integer> countries = createCountries();
+            String query = "UPDATE  app_user SET name =?,email =?,password_hash =?,country_id =?,picture = ? WHERE id = ?";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setString(1, name.getText());
+            statement.setString(2, email.getText());
+            statement.setString(3, getHashedPassword(password.getText()));
+            statement.setInt(4, countries.get(country.getValue()));
+            statement.setString(5, picturePath.getText());
+            statement.setInt(6, id);
+
+            if (execute(statement) != 0) {
+                importUsers();
+                App.showSuccessMessage("user " + name.getText() + " has been updated", "");
+            } else {
+                App.showError("User does not exist", "");
+            }
+            clear();
+
+        }
     }
 
     @FXML
