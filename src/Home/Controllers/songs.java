@@ -2,7 +2,6 @@ package Home.Controllers;
 
 import Home.App;
 import Home.Helper;
-import Home.Modules.Album;
 import Home.Modules.Song;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,9 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -25,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import static Home.Helper.execute;
 import static Home.Helper.executeQuery;
 
 public class songs implements Initializable {
@@ -259,15 +255,14 @@ public class songs implements Initializable {
 
     private void importSongArtists(int ID)   {
         final ObservableList<String> songArtists = FXCollections.observableArrayList();
-        String query = "SELECT * FROM song_artist WHERE artist_id =?";
+        String query = "SELECT name FROM artist WHERE artist.id in (SELECT artist_id from song_artist WHERE song_id = ?)";
         PreparedStatement statement = null;
         try {
             statement = App.connection.prepareStatement(query);
             statement.setInt(1,ID);
             ResultSet resultSet = executeQuery(statement);
             while (resultSet.next()) {
-                int artist_id = resultSet.getInt("artist_id");
-                String artist_name = getArtist(artist_id);
+                String artist_name = resultSet.getString("name");
                 songArtists.add(artist_name);
             }
             songArtistlist.setItems(songArtists);
@@ -277,15 +272,6 @@ public class songs implements Initializable {
         }
     }
 
-
-    private String getArtist(int id) throws SQLException {
-        String query = "SELECT * FROM artist WHERE id = ?";
-        PreparedStatement statement = App.connection.prepareStatement(query);
-        statement.setInt(1, id);
-        ResultSet resultSet = executeQuery(statement);
-        resultSet.next();
-        return resultSet.getString("name");
-    }
 
     private String getAlbum(int id) throws SQLException {
         String query = "SELECT * FROM album WHERE id = ?";
