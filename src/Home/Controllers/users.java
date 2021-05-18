@@ -67,7 +67,7 @@ public class users implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getUserData(displayName, profilePicture);
-        populateNavigator(navigator);
+        populateNavigator(navigator, "Users");
         importUsers();
         importCountries(country);
     }

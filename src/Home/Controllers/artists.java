@@ -63,7 +63,7 @@ public class artists implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getUserData(displayName, profilePicture);
-        populateNavigator(navigator);
+        populateNavigator(navigator, "Artists");
         importArtists();
         importCountries(country);
     }
@@ -96,18 +96,16 @@ public class artists implements Initializable {
 
     @FXML
     private void createArtist() throws SQLException {
-        if (!ID.getText().equals("") && ID.getText() != null) {
-            HashMap<String, Integer> countries = createCountries();
-            String query = "INSERT INTO artist(name, country_id, picture) VALUES (?, ?, ?)";
-            PreparedStatement statement = App.connection.prepareStatement(query);
-            statement.setString(1, name.getText());
-            statement.setInt(2, countries.get(country.getValue()));
-            statement.setString(3, picturePath.getText());
-            execute(statement);
-            importArtists();
-            App.showSuccessMessage("Artist " + name.getText() + " has been created", "");
-            clear();
-        }
+        HashMap<String, Integer> countries = createCountries();
+        String query = "INSERT INTO artist(name, country_id, picture) VALUES (?, ?, ?)";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setString(1, name.getText());
+        statement.setInt(2, countries.get(country.getValue()));
+        statement.setString(3, picturePath.getText());
+        execute(statement);
+        importArtists();
+        App.showSuccessMessage("Artist " + name.getText() + " has been created", "");
+        clear();
     }
 
     private void clear() {
@@ -141,7 +139,16 @@ public class artists implements Initializable {
     }
 
     @FXML
-    private void deleteArtist() {
+    private void deleteArtist() throws SQLException {
+        if (ID.getText() != null && !ID.getText().equals("")) {
+            String query = "DELETE FROM artist WHERE id = ?";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setInt(1, Integer.parseInt(ID.getText()));
+            execute(statement);
+            App.showSuccessMessage("Artist " + name.getText() + " has been deleted", "");
+            importArtists();
+            clear();
+        }
     }
 
     @FXML

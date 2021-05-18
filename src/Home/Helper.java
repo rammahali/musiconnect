@@ -97,11 +97,11 @@ public class Helper {
         }
     }
 
-    public static void populateNavigator(ChoiceBox<String> navigator) {
+    public static void populateNavigator(ChoiceBox<String> navigator, String currentPage) {
         ObservableList<String> pages = FXCollections.observableArrayList();
         pages.addAll("Dashboard", "Users", "Artists", "Albums", "Songs");
         navigator.setItems(pages);
-        navigator.getSelectionModel().select(1);
+        navigator.getSelectionModel().select(currentPage);
     }
 
     public static void importCountries(ChoiceBox<String> country) {
