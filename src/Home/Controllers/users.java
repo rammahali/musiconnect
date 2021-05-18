@@ -104,10 +104,11 @@ public class users implements Initializable {
     @FXML
     private void createUser() throws SQLException {
         if (!email.getText().equals("") && email.getText() != null) {
-            String emailQuery = "SELECT password_hash FROM app_user WHERE email = ?";
+            String emailQuery = "SELECT email FROM app_user WHERE email = ?";
 
             PreparedStatement emailStatement = App.connection.prepareStatement(emailQuery);
             emailStatement.setString(1, email.getText());
+
             ResultSet emailResult = executeQuery(emailStatement);
             if (emailResult.next()) {
                 App.showError("this email already exists", "please change the email");
@@ -144,27 +145,7 @@ public class users implements Initializable {
 
     @FXML
     private void updateUser() throws SQLException {
-        if (!email.getText().equals("") && email.getText() != null) {
-            HashMap<String, Integer> countries = createCountries();
-            String query = "UPDATE  app_user SET name =?,email =?,password_hash =?,country_id =?,picture = ? WHERE email = ?";
-            PreparedStatement statement = App.connection.prepareStatement(query);
-            statement.setString(1, name.getText());
-            statement.setString(2, email.getText());
-            statement.setString(3, getHashedPassword(password.getText()));
-            statement.setInt(4, countries.get(country.getValue()));
-            statement.setString(5, picturePath.getText());
-            statement.setString(6, email.getText());
 
-
-            if (execute(statement) != 0) {
-                importUsers();
-                App.showSuccessMessage("user " + name.getText() + " has been updated", "");
-            } else {
-                App.showError("User does not exist", "");
-            }
-            clear();
-
-        }
     }
 
     @FXML
