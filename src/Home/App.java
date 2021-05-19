@@ -1,14 +1,4 @@
 package Home;
-// TODO: Create admin login
-//       Create admin CRUD operations for:
-//          1.1 playlist_song
-//          1.2 streams
-//          1.3 song_artist
-//          2.1 song
-//          2.2 playlist
-//          3. album
-//          4. artist
-//          5. playlist
 
 
 import javafx.application.Application;
@@ -32,6 +22,15 @@ public class App extends Application {
     public static Connection connection;
     public static Scene scene;
     public static String userEmail = "";
+    public static Integer userCountryId;
+
+    public static Integer getUserCountryId() {
+        return userCountryId;
+    }
+
+    public static void setUserCountryId(Integer userCountryId) {
+        App.userCountryId = userCountryId;
+    }
 
     public static String getUserEmail() {
         return userEmail;

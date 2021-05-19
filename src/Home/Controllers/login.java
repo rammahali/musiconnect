@@ -44,7 +44,7 @@ public class login implements Initializable {
 
     @FXML
     private void onLoginClick() {
-        String query = "SELECT password_hash FROM app_user WHERE email = ?";
+        String query = "SELECT password_hash, country_id FROM app_user WHERE email = ?";
 
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setString(1, email.getText());
@@ -64,6 +64,7 @@ public class login implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                App.setUserCountryId(resultSet.getInt("country_id"));
                 App.showSuccessMessage("Successful login", "You are now logged in");
             }
         } catch (SQLException e) {

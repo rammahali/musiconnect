@@ -6,6 +6,7 @@ public class Song {
     int ID;
     String name;
     String album;
+    Integer streams;
 
     public Integer getStreams() {
         return streams;
@@ -14,8 +15,6 @@ public class Song {
     public void setStreams(Integer streams) {
         this.streams = streams;
     }
-
-    Integer streams;
 
     public String getAlbum() {
         return album;
