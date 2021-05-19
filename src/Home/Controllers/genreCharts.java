@@ -43,7 +43,7 @@ public class genreCharts implements Initializable {
 
     @FXML
     private TableColumn<Song, Integer> popStreams;
-    
+
 
     @FXML
     TableView<Song> jazzList;
@@ -64,7 +64,7 @@ public class genreCharts implements Initializable {
 
     @FXML
     private TableColumn<Song, Integer> classicStreams;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Helper.getUserData(displayName, profilePicture);
@@ -84,18 +84,19 @@ public class genreCharts implements Initializable {
         classicName.setCellValueFactory(new PropertyValueFactory<>("Name"));
         classicStreams.setCellValueFactory(new PropertyValueFactory<>("Streams"));
         String query = """
-                select song.name as name, SUM(streams.streams) as streams
+                select song.id as id, song.name as name, SUM(streams.streams) as streams
                 from song
                          join streams on song.id = streams.song_id join album on album.id = song.album_id where album.category_id = ?
-                group by song.name ORDER BY streams DESC""";
+                group by song.name, song.id ORDER BY streams DESC""";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setInt(1, 3);
             ResultSet resultSet = executeQuery(statement);
             int i = 1;
             while (resultSet.next()) {
+                int songID = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int streams = resultSet.getInt("streams");
-                data.add(new Song(i, name, streams));
+                data.add(new Song(i, songID, name, streams));
                 i++;
             }
 
@@ -111,18 +112,19 @@ public class genreCharts implements Initializable {
         jazzName.setCellValueFactory(new PropertyValueFactory<>("Name"));
         jazzStreams.setCellValueFactory(new PropertyValueFactory<>("Streams"));
         String query = """
-                select song.name as name, SUM(streams.streams) as streams
+                select song.id as id, song.name as name, SUM(streams.streams) as streams
                 from song
                          join streams on song.id = streams.song_id join album on album.id = song.album_id where album.category_id = ?
-                group by song.name ORDER BY streams DESC""";
+                group by song.name, song.id ORDER BY streams DESC""";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setInt(1, 2);
             ResultSet resultSet = executeQuery(statement);
             int i = 1;
             while (resultSet.next()) {
+                int songID = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int streams = resultSet.getInt("streams");
-                data.add(new Song(i, name, streams));
+                data.add(new Song(i, songID, name, streams));
                 i++;
             }
 
@@ -138,18 +140,19 @@ public class genreCharts implements Initializable {
         popName.setCellValueFactory(new PropertyValueFactory<>("Name"));
         popStreams.setCellValueFactory(new PropertyValueFactory<>("Streams"));
         String query = """
-                select song.name as name, SUM(streams.streams) as streams
+                select song.id as id, song.name as name, SUM(streams.streams) as streams
                 from song
                          join streams on song.id = streams.song_id join album on album.id = song.album_id where album.category_id = ?
-                group by song.name ORDER BY streams DESC""";
+                group by song.name, song.id ORDER BY streams DESC""";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setInt(1, 1);
             ResultSet resultSet = executeQuery(statement);
             int i = 1;
             while (resultSet.next()) {
+                int songID = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int streams = resultSet.getInt("streams");
-                data.add(new Song(i, name, streams));
+                data.add(new Song(i, songID, name, streams));
                 i++;
             }
 
@@ -158,6 +161,34 @@ public class genreCharts implements Initializable {
         }
         popList.setItems(data);
     }
+
+    @FXML
+    private void onPopRowClickAction() throws IOException {
+        Song song = popList.getSelectionModel().getSelectedItem();
+        if (song != null) {
+            App.setSongID(song.getID());
+            App.navigateTo("selectedSong");
+        }
+    }
+
+    @FXML
+    private void onJazzRowClickAction() throws IOException {
+        Song song = jazzList.getSelectionModel().getSelectedItem();
+        if (song != null) {
+            App.setSongID(song.getID());
+            App.navigateTo("selectedSong");
+        }
+    }
+
+    @FXML
+    private void onClassicRowClickAction() throws IOException {
+        Song song = classicList.getSelectionModel().getSelectedItem();
+        if (song != null) {
+            App.setSongID(song.getID());
+            App.navigateTo("selectedSong");
+        }
+    }
+
 
     @FXML
     private void navigate() {

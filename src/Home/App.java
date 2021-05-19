@@ -23,6 +23,15 @@ public class App extends Application {
     public static Scene scene;
     public static String userEmail = "";
     public static Integer userCountryId;
+    public static Integer songID;
+
+    public static Integer getSongID() {
+        return songID;
+    }
+
+    public static void setSongID(Integer songID) {
+        App.songID = songID;
+    }
 
     public static Integer getUserCountryId() {
         return userCountryId;

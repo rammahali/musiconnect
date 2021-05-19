@@ -12,8 +12,9 @@ public class Song {
     Date releaseDate;
 
 
-    public Song(Integer order, String name, Integer streams) {
+    public Song(Integer order, Integer ID, String name, Integer streams) {
         setOrder(order);
+        setID(ID);
         setName(name);
         setStreams(streams);
     }
