@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -64,6 +63,33 @@
             <Image url="@../Resources/top.png" />
          </ImageView>
       </Pane>
-      <ListView fx:id="songsListView" layoutX="268.0" layoutY="120.0" prefHeight="274.0" prefWidth="629.0" styleClass="container" />
+      <Pane fx:id="genre" layoutX="377.0" layoutY="166.0" onMouseClicked="#gotoGenreCharts" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+         <children>
+            <Text fill="WHITE" layoutX="3.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre Charts">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="92.0" fitWidth="92.0" layoutX="22.0" layoutY="14.0">
+               <image>
+                  <Image url="@../Resources/genre.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="world" layoutX="600.0" layoutY="166.0" onMouseClicked="#gotoWorldCharts" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
+         <children>
+            <Text fill="WHITE" layoutX="4.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="World Charts">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="92.0" fitWidth="92.0" layoutX="21.0" layoutY="14.0">
+               <image>
+                  <Image url="@../Resources/world.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
    </AnchorPane>
 </GridPane>

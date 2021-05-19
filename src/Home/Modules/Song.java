@@ -7,6 +7,16 @@ public class Song {
     String name;
     String album;
 
+    public Integer getStreams() {
+        return streams;
+    }
+
+    public void setStreams(Integer streams) {
+        this.streams = streams;
+    }
+
+    Integer streams;
+
     public String getAlbum() {
         return album;
     }

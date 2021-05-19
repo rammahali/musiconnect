@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class charts implements Initializable {
+public class worldCharts implements Initializable {
     @FXML
     Text displayName;
     @FXML
@@ -22,13 +23,22 @@ public class charts implements Initializable {
     ListView<String> songsListView;
     @FXML
     ChoiceBox<String> navigator;
+
+    @FXML
+    TableView<String> worldList;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Helper.populateUserNavigator(navigator,"Charts");
+        Helper.populateUserNavigator(navigator, "Charts");
+        populateCharts();
+    }
+
+    private void populateCharts() {
 
     }
 
-    @FXML private  void navigate (){
+    @FXML
+    private void navigate() {
         Helper.navigateUser(navigator);
     }
 
@@ -42,13 +52,4 @@ public class charts implements Initializable {
         App.close();
     }
 
-    @FXML
-    public void gotoWorldCharts() throws IOException {
-        App.navigateTo("worldCharts");
-    }
-
-    @FXML
-    public void gotoGenreCharts() throws IOException {
-        App.navigateTo("genreCharts");
-    }
 }

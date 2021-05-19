@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class charts implements Initializable {
+public class genreCharts implements Initializable {
     @FXML
     Text displayName;
     @FXML
@@ -22,13 +22,14 @@ public class charts implements Initializable {
     ListView<String> songsListView;
     @FXML
     ChoiceBox<String> navigator;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Helper.populateUserNavigator(navigator,"Charts");
-
+        Helper.populateUserNavigator(navigator, "Charts");
     }
 
-    @FXML private  void navigate (){
+    @FXML
+    private void navigate() {
         Helper.navigateUser(navigator);
     }
 
@@ -42,13 +43,4 @@ public class charts implements Initializable {
         App.close();
     }
 
-    @FXML
-    public void gotoWorldCharts() throws IOException {
-        App.navigateTo("worldCharts");
-    }
-
-    @FXML
-    public void gotoGenreCharts() throws IOException {
-        App.navigateTo("genreCharts");
-    }
 }
