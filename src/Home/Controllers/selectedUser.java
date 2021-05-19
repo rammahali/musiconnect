@@ -2,6 +2,7 @@ package Home.Controllers;
 
 import Home.App;
 import Home.Helper;
+import Home.Modules.Song;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -44,6 +46,7 @@ public class selectedUser implements Initializable {
     ChoiceBox<String> navigator;
     @FXML
     TextField selectedUser;
+    int user_id;
     ObservableList<String> songs = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,10 +99,12 @@ public class selectedUser implements Initializable {
 
 
     @FXML public void instantiate(int userID){
-        String query = "SELECT  * app_user WHERE id =? ORDER BY name ";
+        user_id=userID;
+        String query = "SELECT  * FROM app_user WHERE id =? ORDER BY name ";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setInt(1, userID);
             ResultSet resultSet = executeQuery(statement);
+            resultSet.next();
                 String name = resultSet.getString("name");
                 userName.setText(name);
                try {
@@ -109,7 +114,9 @@ public class selectedUser implements Initializable {
                    userPicture.setFill(new ImagePattern(pic));
                }
                catch (Exception ignored){}
-
+               populatePopChart();
+               populateClassicChart();
+               populateJazzChart();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -152,15 +159,110 @@ public class selectedUser implements Initializable {
         return resultSet.getInt("id");
     }
 
-    private  void getPopList(int userID){
 
+    private void populateClassicChart() throws SQLException {
+        final ObservableList<String> data = FXCollections.observableArrayList();
+        String idQuery = "SELECT * FROM follower_following WHERE follower_id=? AND following_id = ?";
+
+        PreparedStatement idStatement = App.connection.prepareStatement(idQuery);
+        idStatement.setInt(1, getUserID(App.getUserEmail()));
+        idStatement.setInt(2, user_id);
+        ResultSet idResult = executeQuery(idStatement);
+        if (!idResult.next()) {
+            return;
+        }
+        String query = """
+                select * from song where id in
+                (select song_id
+                from playlist_song
+                         join playlist p on p.id = playlist_song.playlist_id
+                    where category_id = ? and user_id = ?)""";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setInt(1, 3);
+            statement.setInt(2, user_id);
+            ResultSet resultSet = executeQuery(statement);
+            int i = 1;
+            while (resultSet.next()) {
+                int songID = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                data.add(name);
+                i++;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        classicListView.setItems(data);
     }
 
-    private  void getJazzList(int userID){
+    private void populateJazzChart() throws SQLException {
+        final ObservableList<String> data = FXCollections.observableArrayList();
+        String idQuery = "SELECT * FROM follower_following WHERE follower_id=? AND following_id = ?";
+        PreparedStatement idStatement = App.connection.prepareStatement(idQuery);
+        idStatement.setInt(1, getUserID(App.getUserEmail()));
+        idStatement.setInt(2, user_id);
+        ResultSet idResult = executeQuery(idStatement);
+        if (!idResult.next()) {
+            return;
+        }
+        String query = """
+                select * from song where id in
+                (select song_id
+                from playlist_song
+                         join playlist p on p.id = playlist_song.playlist_id
+                    where category_id = ? and user_id = ?)""";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setInt(1, 2);
+            statement.setInt(2, user_id);
+            ResultSet resultSet = executeQuery(statement);
+            int i = 1;
+            while (resultSet.next()) {
+                int songID = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                data.add(name);
+                i++;
+            }
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        jazzListView.setItems(data);
     }
-    private  void getClassicList(int userID){
 
+    private void populatePopChart() throws SQLException {
+        final ObservableList<String> data = FXCollections.observableArrayList();
+        String idQuery = "SELECT * FROM follower_following WHERE follower_id=? AND following_id = ?";
+
+        PreparedStatement idStatement = App.connection.prepareStatement(idQuery);
+        idStatement.setInt(1, getUserID(App.getUserEmail()));
+        idStatement.setInt(2, user_id);
+        ResultSet idResult = executeQuery(idStatement);
+        if (!idResult.next()) {
+            App.showInfoMessage("Follow this user to view playlists","");
+            return;
+        }
+        String query = """
+                select * from song where id in
+                (select song_id
+                from playlist_song
+                         join playlist p on p.id = playlist_song.playlist_id
+                    where category_id = ? and user_id = ?)""";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setInt(1, 1);
+            statement.setInt(2, user_id);
+            ResultSet resultSet = executeQuery(statement);
+            int i = 1;
+            while (resultSet.next()) {
+                int songID = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                data.add(name);
+                i++;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        popListView.setItems(data);
     }
 
 
@@ -171,6 +273,39 @@ public class selectedUser implements Initializable {
     @FXML
     private void logoutApp() throws IOException {
         App.navigateTo("login");
+    }
+
+    @FXML private void getPop() throws SQLException {
+        int category_id=1;
+        int user_id = getUserID(App.getUserEmail());
+
+    }
+    @FXML private  void getJazz(){
+        int category_id=2;
+    }
+    @FXML private void getClassic(){
+        int category_id=3;
+    }
+    @FXML private void follow() throws SQLException {
+        String idQuery = "SELECT * FROM follower_following WHERE follower_id= ? AND following_id = ?";
+
+        PreparedStatement idStatement = App.connection.prepareStatement(idQuery);
+        idStatement.setInt(1, getUserID(App.getUserEmail()));
+        idStatement.setInt(2, user_id);
+        ResultSet idResult = executeQuery(idStatement);
+        if (idResult.next()) {
+            App.showError("Already following this user, ","");
+            return;
+        }
+        String query = "INSERT INTO follower_following (follower_id, following_id) VALUES (?, ?)";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setInt(1, getUserID(App.getUserEmail()));
+        statement.setInt(2, user_id);
+        execute(statement);
+        App.showSuccessMessage("Added to following","");
+        populateJazzChart();
+        populateClassicChart();
+        populatePopChart();
     }
 
 

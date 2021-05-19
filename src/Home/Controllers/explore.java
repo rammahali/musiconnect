@@ -68,21 +68,21 @@ public class explore implements Initializable {
     }
 
     @FXML private void getUser(){
-//        String user  = usersListView.getSelectionModel().getSelectedItem();
-//        if(users.contains(user)){
-//             try {
-//        FXMLLoader loader = loaderFactory("selectedAlbum");
-//        Parent root = loader.load();
-//        selectedAlbum controller = loader.getController();
-//        int albumID =getAlbumByName(album);
-//          controller.instantiate(albumID);
-//        App.scene.setRoot(root);
-//    } catch (IOException | SQLException e) {
-//        e.printStackTrace();
-//    }
-//        }
-//        else
-//            App.showInfoMessage("We couldn't find this album","please check the album name and try again");
+        String user  = usersListView.getSelectionModel().getSelectedItem();
+        if(users.contains(user)){
+             try {
+        FXMLLoader loader = loaderFactory("selectedUser");
+        Parent root = loader.load();
+        selectedUser controller = loader.getController();
+        int userID = getUserID(selectedUser.getText());
+          controller.instantiate(userID);
+        App.scene.setRoot(root);
+    } catch (IOException | SQLException e) {
+        e.printStackTrace();
+    }
+        }
+        else
+            App.showInfoMessage("We couldn't find this album","please check the album name and try again");
     }
 
     private String getUserByID(int id) throws SQLException {
@@ -92,6 +92,23 @@ public class explore implements Initializable {
         ResultSet resultSet = executeQuery(statement);
         resultSet.next();
         return resultSet.getString("name");
+    }
+
+    private int getUserByEmail(String email) throws SQLException {
+        String query = "SELECT * FROM app_user WHERE email = ?";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet resultSet = executeQuery(statement);
+        resultSet.next();
+        return resultSet.getInt("id");
+    }
+    private int getUserID(String name) throws SQLException {
+        String query = "SELECT * FROM app_user WHERE name = ?";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setString(1, name);
+        ResultSet resultSet = executeQuery(statement);
+        resultSet.next();
+        return resultSet.getInt("id");
     }
 
     @FXML private  void navigate (){
