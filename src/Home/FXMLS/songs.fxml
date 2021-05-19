@@ -98,9 +98,9 @@
                   <Button id="myPlayLists" fx:id="create" layoutX="28.0" layoutY="312.0" mnemonicParsing="false" onAction="#createSong" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Create" />
                   <Button id="myPlayLists" fx:id="update" layoutX="107.0" layoutY="312.0" mnemonicParsing="false" onAction="#updateSong" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Update" />
                   <Button id="myPlayLists" fx:id="delete" layoutX="185.0" layoutY="312.0" mnemonicParsing="false" onAction="#deleteSong" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Delete" />
-                  <Button id="myPlayLists" fx:id="addArtist" layoutX="171.0" layoutY="142.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Add" />
+                  <Button id="myPlayLists" fx:id="addArtist" layoutX="171.0" layoutY="142.0" mnemonicParsing="false" onAction="#addArtist" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Add" />
                   <ChoiceBox fx:id="songArtistlist" layoutX="26.0" layoutY="183.0" prefHeight="31.0" prefWidth="137.0" />
-                  <Button id="myPlayLists" fx:id="deleteArtist" layoutX="172.0" layoutY="183.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Delete" />
+                  <Button id="myPlayLists" fx:id="deleteArtist" layoutX="172.0" layoutY="183.0" mnemonicParsing="false" onAction="#deleteArtist" prefHeight="31.0" prefWidth="71.0" styleClass="container-button" text="Delete" />
                   <DatePicker fx:id="releaseDate" layoutX="26.0" layoutY="225.0" prefHeight="31.0" prefWidth="218.0" promptText="release date" />
                   <TextField fx:id="length" layoutX="27.0" layoutY="265.0" prefHeight="31.0" prefWidth="218.0" promptText="length" />
                </children>
