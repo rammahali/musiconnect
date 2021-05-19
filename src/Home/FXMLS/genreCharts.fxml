@@ -76,8 +76,9 @@
       </Pane>
       <TableView fx:id="popList" layoutX="284.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn prefWidth="128.0" text="Name" />
-          <TableColumn prefWidth="71.0" text="Streams" />
+            <TableColumn fx:id="popOrder" prefWidth="30.0" text="#" />
+            <TableColumn fx:id="popName" prefWidth="98.0" text="Name" />
+            <TableColumn fx:id="popStreams" prefWidth="71.0" text="Streams" />
         </columns>
       </TableView>
       <Pane layoutX="504.0" layoutY="160.0" prefHeight="50.0" prefWidth="205.0" styleClass="playlist" stylesheets="@styleSheet.css">
@@ -100,14 +101,16 @@
       </Pane>
       <TableView fx:id="jazzList" layoutX="507.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
          <columns>
-            <TableColumn prefWidth="128.0" text="Name" />
-            <TableColumn prefWidth="71.0" text="Streams" />
+             <TableColumn fx:id="jazzOrder" prefWidth="30.0" text="#" />
+             <TableColumn fx:id="jazzName" prefWidth="98.0" text="Name" />
+             <TableColumn fx:id="jazzStreams" prefWidth="71.0" text="Streams" />
          </columns>
       </TableView>
       <TableView fx:id="classicList" layoutX="732.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
          <columns>
-            <TableColumn prefWidth="128.0" text="Name" />
-            <TableColumn prefWidth="71.0" text="Streams" />
+             <TableColumn fx:id="classicOrder" prefWidth="30.0" text="#" />
+             <TableColumn fx:id="classicName" prefWidth="98.0" text="Name" />
+             <TableColumn fx:id="classicStreams" prefWidth="71.0" text="Streams" />
          </columns>
       </TableView>
     </AnchorPane>
