@@ -18,6 +18,18 @@ public class Song {
         setName(name);
         setStreams(streams);
     }
+
+    public Song(int i, String name) {
+        setOrder(i);
+        setName(name);
+    }
+
+    public Song(int i, int songID, String name) {
+        setOrder(i);
+        setID(songID);
+        setName(name);
+    }
+
     public Integer getOrder() {
         return order;
     }
