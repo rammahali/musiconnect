@@ -122,7 +122,7 @@ public class songs implements Initializable {
                     App.showError("Song exists"," a song with this name does exist ,please change the song's name");
                     return;
             }
-            int album_id = getAlbumByName(name.getText());
+            int album_id = getAlbumByName(album.getValue());
             int length;
             if(this.length.getText().equals(""))
                 length=0;
@@ -172,7 +172,7 @@ public class songs implements Initializable {
     @FXML
     private void updateSong() throws SQLException {
         if (!name.getText().equals("")) {
-            int album_id = getAlbumByName(name.getText());
+            int album_id = getAlbumByName(album.getValue());
             int length;
             if(this.length.getText().equals(""))
                 length=0;

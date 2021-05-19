@@ -119,8 +119,8 @@ public class albums implements Initializable {
     @FXML
     private void createAlbum() throws SQLException {
         if (!name.getText().equals("") ) {
-            int artistID = artist.getSelectionModel().getSelectedIndex()+1;
-            int categoryID = category.getSelectionModel().getSelectedIndex()+1;
+            int artistID = getArtistByName(artist.getValue());
+            int categoryID =  getCategoryByName(category.getValue());
             if(releaseDate.getValue()==null){
                 setCurrentDate(releaseDate);
             }
@@ -176,8 +176,8 @@ public class albums implements Initializable {
     @FXML
     private void updateAlbum() throws SQLException {
         if (!name.getText().equals("")) {
-            int artistID = artist.getSelectionModel().getSelectedIndex()+1;
-            int categoryID = category.getSelectionModel().getSelectedIndex()+1;
+            int artistID = getArtistByName(artist.getValue());
+            int categoryID =  getCategoryByName(category.getValue());
             Album album = albumsTable.getSelectionModel().getSelectedItem();
             int id;
             if(album==null)
@@ -281,7 +281,22 @@ public class albums implements Initializable {
         resultSet.next();
         return resultSet.getString("name");
     }
-
+    private int getArtistByName(String name) throws SQLException {
+        String query = "SELECT * FROM artist WHERE name = ?";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setString(1, name);
+        ResultSet resultSet = executeQuery(statement);
+        resultSet.next();
+        return resultSet.getInt("id");
+    }
+    private int getCategoryByName(String name) throws SQLException {
+        String query = "SELECT * FROM category WHERE name = ?";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setString(1, name);
+        ResultSet resultSet = executeQuery(statement);
+        resultSet.next();
+        return resultSet.getInt("id");
+    }
     private String getCategory(int id) throws SQLException {
         String query = "SELECT * FROM category WHERE id = ?";
         PreparedStatement statement = App.connection.prepareStatement(query);
