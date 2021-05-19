@@ -24,8 +24,8 @@ public class charts implements Initializable {
     ChoiceBox<String> navigator;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Helper.getUserData(displayName, profilePicture);
         Helper.populateUserNavigator(navigator,"Charts");
-
     }
 
     @FXML private  void navigate (){

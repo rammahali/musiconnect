@@ -17,7 +17,12 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import static Home.Helper.executeQuery;
 
 public class worldCharts implements Initializable {
     @FXML
@@ -30,8 +35,12 @@ public class worldCharts implements Initializable {
     ChoiceBox<String> navigator;
 
     @FXML
-    TableView<Song> worldList;
+    Text countryLabel;
 
+    @FXML
+    TableView<Song> worldList;
+    @FXML
+    private TableColumn<Song, Integer> worldOrder;
     @FXML
     private TableColumn<Song, Integer> worldName;
 
@@ -40,7 +49,8 @@ public class worldCharts implements Initializable {
 
     @FXML
     TableView<Song> countryList;
-
+    @FXML
+    private TableColumn<Song, Integer> countryOrder;
     @FXML
     private TableColumn<Song, Integer> countryName;
 
@@ -50,23 +60,78 @@ public class worldCharts implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Helper.getUserData(displayName, profilePicture);
         Helper.populateUserNavigator(navigator, "Charts");
+        setCountry();
         populateCharts();
+    }
+
+    private void setCountry() {
+        String query = "SELECT name FROM country WHERE id = ? ";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setInt(1, App.getUserCountryId());
+            ResultSet resultSet = executeQuery(statement);
+            while (resultSet.next()) {
+                String userCountryName = resultSet.getString("name");
+                countryLabel.setText("Top 10 " + userCountryName);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     private void populateCountriesChart() {
         final ObservableList<Song> data = FXCollections.observableArrayList();
-        worldName.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        worldStreams.setCellValueFactory(new PropertyValueFactory<>("Streams"));
+        countryOrder.setCellValueFactory(new PropertyValueFactory<>("Order"));
+        countryName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        countryStreams.setCellValueFactory(new PropertyValueFactory<>("Streams"));
         String query = """
-                select song.name as name, streams.streams as streams
-                from song
-                         join streams on song.id = streams.song_id where streams.country_id = ?
-                ORDER BY streams DESC;""";
+                SELECT song.name AS name, streams.streams AS streams
+                FROM song
+                         JOIN streams ON song.id = streams.song_id WHERE streams.country_id = ?
+                ORDER BY streams DESC""";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            statement.setInt(1, App.getUserCountryId());
+            ResultSet resultSet = executeQuery(statement);
+            int i = 1;
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                int streams = resultSet.getInt("streams");
+                data.add(new Song(i, name, streams));
+                i++;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        countryList.setItems(data);
     }
 
     private void populateWorldChart() {
+        final ObservableList<Song> data = FXCollections.observableArrayList();
+        worldOrder.setCellValueFactory(new PropertyValueFactory<>("Order"));
+        worldName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        worldStreams.setCellValueFactory(new PropertyValueFactory<>("Streams"));
+        String query = """
+                SELECT song.name, SUM(streams.streams) AS streams
+                FROM song
+                         JOIN streams ON song.id = streams.song_id
+                GROUP BY song.name ORDER BY streams DESC""";
+        try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+            ResultSet resultSet = executeQuery(statement);
+            int i = 1;
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                int streams = resultSet.getInt("streams");
+                data.add(new Song(i, name, streams));
+                i++;
+            }
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        worldList.setItems(data);
     }
 
     private void populateCharts() {

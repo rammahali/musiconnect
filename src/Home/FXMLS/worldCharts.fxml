@@ -69,14 +69,15 @@
          <children>
             <Text fill="#fcf3f3" layoutX="32.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top 10 World">
                <font>
-                  <Font size="21.0" />
+                  <Font size="17.0" />
                </font>
             </Text>
          </children>
       </Pane>
       <TableView fx:id="worldList" layoutX="344.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn fx:id="worldName" prefWidth="128.0" text="Name" />
+            <TableColumn fx:id="worldOrder" prefWidth="30.0" text="#" />
+            <TableColumn fx:id="worldName" prefWidth="98.0" text="Name" />
           <TableColumn fx:id="worldStreams" prefWidth="71.0" text="Streams" />
         </columns>
       </TableView>
@@ -84,15 +85,16 @@
          <children>
             <Text fx:id="countryLabel" fill="#fcf3f3" layoutX="21.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top 10 Country">
                <font>
-                  <Font size="21.0" />
+                  <Font size="17.0" />
                </font>
             </Text>
          </children>
       </Pane>
       <TableView fx:id="countryList" layoutX="609.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
          <columns>
-            <TableColumn fx:id="countryName" prefWidth="128.0" text="Name" />
-            <TableColumn fx:id="countryStreams" prefWidth="71.0" text="Streams" />
+             <TableColumn fx:id="countryOrder" prefWidth="27.0" text="#" />
+             <TableColumn fx:id="countryName" prefWidth="106.0" text="Name" />
+            <TableColumn fx:id="countryStreams" prefWidth="66.0" text="Streams" />
          </columns>
       </TableView>
     </AnchorPane>

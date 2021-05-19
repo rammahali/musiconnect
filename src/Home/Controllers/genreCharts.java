@@ -25,6 +25,7 @@ public class genreCharts implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Helper.getUserData(displayName, profilePicture);
         Helper.populateUserNavigator(navigator, "Charts");
     }
 
