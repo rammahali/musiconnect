@@ -1,7 +1,7 @@
 package Home.Modules;
 
 public class Artist {
-    private int ID;
+    private Integer ID;
     private String name;
     private String country;
     private String picture;
@@ -13,11 +13,11 @@ public class Artist {
         this.picture=picture;
     }
 
-    public int getID() {
+    public Integer getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 

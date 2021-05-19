@@ -11,7 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -29,14 +31,13 @@ public class artists implements Initializable {
     Circle profilePicture;
     @FXML
     ChoiceBox<String> navigator;
+
+
+    @FXML
+    private TextField ID;
+
     @FXML
     private TextField name;
-
-    @FXML
-    private TextField email;
-
-    @FXML
-    private PasswordField password;
 
     @FXML
     private ChoiceBox<String> country;
@@ -45,10 +46,10 @@ public class artists implements Initializable {
     private TextField picturePath;
 
     @FXML
-    private TableView<Artist> ArtistsTable;
+    private TableView<Artist> artistsTable;
 
     @FXML
-    private TableColumn<Artist, Integer> ID;
+    private TableColumn<Artist, Integer> colID;
 
     @FXML
     private TableColumn<Artist, String> colName;
@@ -62,20 +63,20 @@ public class artists implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getUserData(displayName, profilePicture);
-        populateNavigator();
+        populateNavigator(navigator, "Artists");
         importArtists();
+        importCountries(country);
     }
 
 
     @FXML
     private void importArtists() {
-        System.out.println("IMPORT ARTISTS FUNC CALLED");
         final ObservableList<Artist> data = FXCollections.observableArrayList();
-        ID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        colID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         colPath.setCellValueFactory(new PropertyValueFactory<>("picture"));
-        String query = "SELECT * FROM artist";
+        String query = "SELECT * FROM artist ORDER BY id";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             ResultSet resultSet = executeQuery(statement);
             while (resultSet.next()) {
@@ -90,46 +91,82 @@ public class artists implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        ArtistsTable.setItems(data);
+        artistsTable.setItems(data);
     }
 
     @FXML
     private void createArtist() throws SQLException {
-        if (!email.getText().equals("") && email.getText() != null) {
-            HashMap<String, Integer> countries = createCountries();
-            String query = "INSERT INTO artist(name, country_id, picture) VALUES (?, ?, ?)";
-            PreparedStatement statement = App.connection.prepareStatement(query);
-            statement.setString(1, name.getText());
-            statement.setInt(2, countries.get(country.getValue()));
-            statement.setString(3, picturePath.getText());
-            execute(statement);
-            importArtists();
-            App.showSuccessMessage("Artist " + name.getText() + " has been created", "");
-            clear();
-        }
+        HashMap<String, Integer> countries = createCountries();
+        String query = "INSERT INTO artist(name, country_id, picture) VALUES (?, ?, ?)";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setString(1, name.getText());
+        statement.setInt(2, countries.get(country.getValue()));
+        statement.setString(3, picturePath.getText());
+        execute(statement);
+        importArtists();
+        App.showSuccessMessage("Artist " + name.getText() + " has been created", "");
+        clear();
     }
 
     private void clear() {
+        ID.setText("");
         name.setText("");
-        email.setText("");
-        password.setText("");
         picturePath.setText("");
         country.getSelectionModel().select(0);
     }
 
 
     @FXML
-    private void updateArtist() {
-        Artist artist = ArtistsTable.getSelectionModel().getSelectedItem();
-        App.showInfoMessage(artist.getName(), "");
+    private void updateArtist() throws SQLException {
+        if (!ID.getText().equals("") && ID.getText() != null) {
+            HashMap<String, Integer> countries = createCountries();
+
+            String query = "UPDATE artist SET name = ?, country_id = ?, picture = ? WHERE id = ?";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setString(1, name.getText());
+            statement.setInt(2, countries.get(country.getValue()));
+            statement.setString(3, picturePath.getText());
+            statement.setInt(4, Integer.parseInt(ID.getText()));
+
+            if (execute(statement) != 0) {
+                importArtists();
+                App.showSuccessMessage("Artist " + name.getText() + " has been updated", "");
+            } else {
+                App.showError("Artist does not exist", "");
+            }
+            clear();
+        }
     }
 
     @FXML
-    private void deleteArtist() {
+    private void deleteArtist() throws SQLException {
+        if (ID.getText() != null && !ID.getText().equals("")) {
+            String query = "DELETE FROM artist WHERE id = ?";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setInt(1, Integer.parseInt(ID.getText()));
+            execute(statement);
+            App.showSuccessMessage("Artist " + name.getText() + " has been deleted", "");
+            importArtists();
+            clear();
+        }
     }
 
-    private void onRowClickAction() {
-
+    @FXML
+    private void onRowClickAction() throws SQLException {
+        Artist artist = artistsTable.getSelectionModel().getSelectedItem();
+        if (artist != null) {
+            name.setText(artist.getName());
+            ID.setText(String.valueOf(artist.getID()));
+            picturePath.setText(artist.getPicture());
+            String query = "SELECT * FROM artist WHERE id = ?";
+            PreparedStatement statement = App.connection.prepareStatement(query);
+            statement.setInt(1, artist.getID());
+            ResultSet resultSet = executeQuery(statement);
+            resultSet.next();
+            int countryID = resultSet.getInt("country_id");
+            String country = getCountry(countryID);
+            this.country.getSelectionModel().select(country);
+        }
     }
 
     private String getCountry(int id) throws SQLException {
@@ -151,15 +188,17 @@ public class artists implements Initializable {
         App.close();
     }
 
-    private void populateNavigator() {
-        ObservableList<String> pages = FXCollections.observableArrayList();
-        pages.addAll("Dashboard", "Users", "Artists", "Albums", "Songs");
-        navigator.setItems(pages);
-        navigator.getSelectionModel().select(2);
-    }
-
     @FXML
     private void navigate() {
         Helper.navigate(navigator);
+    }
+
+    @FXML
+    private void selectProfileImage() {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            picturePath.setText(selectedFile.getPath());
+        }
     }
 }
