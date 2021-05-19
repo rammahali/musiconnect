@@ -67,7 +67,7 @@ public class users implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getUserData(displayName, profilePicture);
-        populateNavigator(navigator, "Users");
+        populateAdminNavigator(navigator, "Users");
         importUsers();
         importCountries(country);
     }
@@ -241,6 +241,6 @@ public class users implements Initializable {
 
     @FXML
     private void navigate() {
-        Helper.navigate(navigator);
+        Helper.navigateAdmin(navigator);
     }
 }

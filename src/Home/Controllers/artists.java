@@ -63,7 +63,7 @@ public class artists implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getUserData(displayName, profilePicture);
-        populateNavigator(navigator, "Artists");
+        populateAdminNavigator(navigator, "Artists");
         importArtists();
         importCountries(country);
     }
@@ -190,7 +190,7 @@ public class artists implements Initializable {
 
     @FXML
     private void navigate() {
-        Helper.navigate(navigator);
+        Helper.navigateAdmin(navigator);
     }
 
     @FXML

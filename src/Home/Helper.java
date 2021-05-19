@@ -97,7 +97,14 @@ public class Helper {
         }
     }
 
-    public static void populateNavigator(ChoiceBox<String> navigator, String currentPage) {
+    public static void populateUserNavigator(ChoiceBox<String> navigator, String currentPage) {
+        ObservableList<String> pages = FXCollections.observableArrayList();
+        pages.addAll("Dashboard", "Library", "Explore", "Albums", "Charts");
+        navigator.setItems(pages);
+        navigator.getSelectionModel().select(currentPage);
+    }
+
+    public static void populateAdminNavigator(ChoiceBox<String> navigator, String currentPage) {
         ObservableList<String> pages = FXCollections.observableArrayList();
         pages.addAll("Dashboard", "Users", "Artists", "Albums", "Songs");
         navigator.setItems(pages);
@@ -118,7 +125,50 @@ public class Helper {
     }
 
     @FXML
-    public static void navigate(ChoiceBox<String> navigator) {
+    public static void navigateUser(ChoiceBox<String> navigator) {
+        int index = navigator.getSelectionModel().getSelectedIndex();
+        switch (index) {
+            case 0:
+                try {
+                    App.navigateTo("userDashboard");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+            case 1:
+                try {
+                    App.navigateTo("library");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+            case 2:
+                try {
+                    App.navigateTo("explore");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+            case 3:
+                try {
+                    App.navigateTo("albums");
+                } catch (IOException e) {
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+            case 4:
+                try {
+                    App.navigateTo("charts");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
+                }
+                break;
+        }
+    }
+
+    @FXML
+    public static void navigateAdmin(ChoiceBox<String> navigator) {
         int index = navigator.getSelectionModel().getSelectedIndex();
         switch (index) {
             case 0:
@@ -154,12 +204,12 @@ public class Helper {
                     App.navigateTo("songs");
                 } catch (IOException e) {
                     e.printStackTrace();
-                    //App.showInfoMessage("Page not found", "we couldn't find this page...");
+                    App.showInfoMessage("Page not found", "we couldn't find this page...");
                 }
                 break;
         }
-
     }
+
     public static HashMap<String, Integer> createCountries() {
         HashMap<String, Integer> countriesMap = new HashMap<>();
         countriesMap.put("Aruba", 533);

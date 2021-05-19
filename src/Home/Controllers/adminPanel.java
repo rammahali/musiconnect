@@ -7,20 +7,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-
-import static Home.Helper.executeQuery;
 
 public class adminPanel implements Initializable {
     @FXML
@@ -60,7 +52,7 @@ public class adminPanel implements Initializable {
 
     @FXML
     private void navigate() {
-        Helper.navigate(navigator);
+        Helper.navigateAdmin(navigator);
     }
 
     @FXML

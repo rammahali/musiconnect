@@ -398,7 +398,7 @@ public class songs implements Initializable {
 
     @FXML
     private void navigate() {
-        Helper.navigate(navigator);
+        Helper.navigateAdmin(navigator);
     }
 
 

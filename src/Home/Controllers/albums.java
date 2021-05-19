@@ -3,7 +3,6 @@ package Home.Controllers;
 import Home.App;
 import Home.Helper;
 import Home.Modules.Album;
-import Home.Modules.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,12 +20,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static Home.Helper.*;
@@ -332,7 +327,7 @@ public class albums implements Initializable {
 
     @FXML
     private void navigate() {
-        Helper.navigate(navigator);
+        Helper.navigateAdmin(navigator);
     }
 
 
