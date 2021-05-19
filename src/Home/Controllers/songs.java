@@ -69,6 +69,8 @@ public class songs implements Initializable {
     @FXML
     private TableColumn<Song, String> colReleaseDate;
     ObservableList<String> songArtists = FXCollections.observableArrayList();
+    ObservableList<String> songArtistsToAdd = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Helper.getUserData(displayName, profilePicture);
@@ -211,6 +213,7 @@ public class songs implements Initializable {
     private void onRowClickAction()  {
         Song song = songsTable.getSelectionModel().getSelectedItem();
         if (song != null) {
+            clear();
             name.setText(song.getName());
             album.getSelectionModel().select(song.getAlbum());
             releaseDate.setValue(song.getReleaseDate().toLocalDate());
