@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
@@ -44,13 +45,14 @@ public class createAccount implements Initializable {
     private void onLoginMenuClick() throws IOException {
         App.navigateTo("login");
     }
+
     @FXML
     private void onAdminPanelClick() throws IOException {
         App.navigateTo("adminLogin");
     }
 
     @FXML
-    private void onCloseAppClick()  {
+    private void onCloseAppClick() {
         App.close();
     }
 
@@ -76,6 +78,7 @@ public class createAccount implements Initializable {
                 statement.setString(5, profileImagePath);
                 execute(statement);
                 App.setUserEmail(email.getText());
+                createCategories();
                 try {
                     App.navigateTo("userDashboard");
                 } catch (IOException e) {
@@ -90,6 +93,29 @@ public class createAccount implements Initializable {
 
             App.showSuccessMessage("Account has been created", "You are now logged in");
         }
+    }
+
+    private void createCategories() {
+        for (int category = 1; category < 4; category++) {
+            String query = "INSERT INTO playlist(user_id, category_id) VALUES (?, ?)";
+            try (PreparedStatement statement = App.connection.prepareStatement(query)) {
+                statement.setInt(1, getUserID(email.getText()));
+                statement.setInt(2, category);
+                execute(statement);
+                App.setUserEmail(email.getText());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    private int getUserID(String email) throws SQLException {
+        String query = "SELECT * FROM app_user WHERE email = ?";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet resultSet = executeQuery(statement);
+        resultSet.next();
+        return resultSet.getInt("id");
     }
 
     private boolean isValidAccountCreation() {
