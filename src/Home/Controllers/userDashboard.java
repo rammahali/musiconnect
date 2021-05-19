@@ -91,4 +91,12 @@ public class userDashboard implements Initializable {
         }
     }
 
+   @FXML private void buyPremium(){
+       try {
+           App.navigateTo("premium");
+       } catch (IOException e) {
+           App.showInfoMessage("Section not found", "we couldn't find this section...");
+       }
+    }
+
 }

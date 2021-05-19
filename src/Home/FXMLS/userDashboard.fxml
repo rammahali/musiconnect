@@ -59,6 +59,11 @@
                <Font size="32.0" />
             </font>
          </Text>
+         <Button id="myPlayLists" fx:id="buyPremium" layoutX="563.0" layoutY="23.0" mnemonicParsing="false" onAction="#buyPremium" prefHeight="50.0" prefWidth="138.0" styleClass="flat-button" text="Buy Premium" textFill="WHITE">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Button>
       </Pane>
       <Pane fx:id="library" layoutX="302.0" layoutY="185.0" onMouseClicked="#gotoLibrary" prefHeight="148.0" prefWidth="138.0" styleClass="place-holder">
          <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="24.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
