@@ -77,7 +77,7 @@ public class createAccount implements Initializable {
                 execute(statement);
                 App.setUserEmail(email.getText());
                 try {
-                    App.navigateTo("userPlaylists");
+                    App.navigateTo("userDashboard");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

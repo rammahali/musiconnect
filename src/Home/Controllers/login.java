@@ -60,7 +60,7 @@ public class login implements Initializable {
             } else {
                 App.setUserEmail(email.getText());
                 try {
-                    App.navigateTo("userPlaylists");
+                    App.navigateTo("userDashboard");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -151,7 +151,7 @@ public class Helper {
                 break;
             case 3:
                 try {
-                    App.navigateTo("albums");
+                    App.navigateTo("userAlbums");
                 } catch (IOException e) {
                     App.showInfoMessage("Page not found", "we couldn't find this page...");
                 }

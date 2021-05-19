@@ -120,8 +120,7 @@ public class artists implements Initializable {
     private void updateArtist() throws SQLException {
         if (!ID.getText().equals("") && ID.getText() != null) {
             HashMap<String, Integer> countries = createCountries();
-
-            String query = "UPDATE artist SET name = ?, country_id = ?, picture = ? WHERE id = ?";
+            String query = "UPDATE artist SET name = ?,  = ?, picture = ? WHERE id = ?";
             PreparedStatement statement = App.connection.prepareStatement(query);
             statement.setString(1, name.getText());
             statement.setInt(2, countries.get(country.getValue()));
