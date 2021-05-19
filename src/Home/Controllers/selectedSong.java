@@ -101,22 +101,25 @@ public class selectedSong implements Initializable {
 
     @FXML
     private void onPlay() {
+        int result = 0;
         String query = "UPDATE streams set streams = streams + 1 where song_id = ? and country_id = ?";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             statement.setInt(1, App.songID);
             statement.setInt(2, App.userCountryId);
-            int result = execute(statement);
+            result = execute(statement);
 
-            if (result == 0) {
-                String creationQuery = "INSERT INTO streams VALUES (?, ?, 1)";
-                try (PreparedStatement creationStatement = App.connection.prepareStatement(creationQuery)) {
-                    statement.setInt(1, App.songID);
-                    statement.setInt(2, App.userCountryId);
-                    execute(creationStatement);
-                }
-            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+        if (result == 0) {
+            String creationQuery = "INSERT INTO streams VALUES (?, ?, 1)";
+            try (PreparedStatement creationStatement = App.connection.prepareStatement(creationQuery)) {
+                creationStatement.setInt(1, App.songID);
+                creationStatement.setInt(2, App.userCountryId);
+                execute(creationStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

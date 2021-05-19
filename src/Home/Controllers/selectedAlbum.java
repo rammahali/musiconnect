@@ -17,7 +17,6 @@ import javafx.scene.text.Text;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -57,9 +56,10 @@ public class selectedAlbum implements Initializable {
         }
     }
 
-    @FXML private void viewSong(){
+    @FXML private void viewSong() throws IOException, SQLException {
          if(songs.contains(selectedSong.getText())){
-             //TODO:ADD GO TO SONG METHOD HERE
+             App.setSongID(getSongID(selectedSong.getText()));
+             App.navigateTo("selectedSong");
          }
     }
     @FXML private void addSong() throws SQLException {
