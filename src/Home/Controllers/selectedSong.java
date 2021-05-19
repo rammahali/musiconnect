@@ -137,4 +137,36 @@ public class selectedSong implements Initializable {
     private void close() {
         App.close();
     }
+
+    private int getUserID(String email) throws SQLException {
+        String query = "SELECT * FROM app_user WHERE email = ?";
+        PreparedStatement statement = App.connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet resultSet = executeQuery(statement);
+        resultSet.next();
+        return resultSet.getInt("id");
+    }
+    
+    @FXML
+    public void onAdd() {
+        int playlistID = 0;
+        String playlistQuery = "select id from playlist where user_id = ? and category_id = (select a.category_id from song join album a on a.id = song.album_id where song.id = ?)";
+        try (PreparedStatement queryStatement = App.connection.prepareStatement(playlistQuery)) {
+            queryStatement.setInt(1, getUserID(App.getUserEmail()));
+            queryStatement.setInt(2, App.songID);
+            ResultSet rs = executeQuery(queryStatement);
+            rs.next();
+            playlistID = rs.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String insertQuery = "INSERT INTO playlist_song(playlist_id, song_id) VALUES (?, ?)";
+        try (PreparedStatement creationStatement = App.connection.prepareStatement(insertQuery)) {
+            creationStatement.setInt(1, playlistID);
+            creationStatement.setInt(2, App.songID);
+            execute(creationStatement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

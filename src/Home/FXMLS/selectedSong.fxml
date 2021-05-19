@@ -67,7 +67,7 @@
       <Pane layoutX="254.0" layoutY="149.0" prefHeight="275.0" prefWidth="690.0" styleClass="place-holder">
          <children>
             <Circle fx:id="songPicture" fill="WHITE" layoutX="111.0" layoutY="97.0" radius="90.0" stroke="BLACK" strokeType="INSIDE" />
-            <Button fx:id="play" layoutX="59.0" layoutY="201.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="105.0" onAction="#onPlay" styleClass="flat-button" text="Play" textFill="WHITE">
+            <Button fx:id="play" layoutX="21.0" layoutY="201.0" mnemonicParsing="false" onAction="#onPlay" prefHeight="50.0" prefWidth="105.0" styleClass="flat-button" text="Play" textFill="WHITE">
                <font>
                   <Font size="17.0" />
                </font>
@@ -103,6 +103,11 @@
                   <Font size="25.0" />
                </font>
             </Text>
+            <Button fx:id="add" layoutX="126.0" layoutY="201.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="50.0" prefWidth="105.0" styleClass="flat-button" text="Add" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </AnchorPane>

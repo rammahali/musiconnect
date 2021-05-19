@@ -56,11 +56,30 @@ public class selectedUser implements Initializable {
 
 
     @FXML
-    private void onSongActionClick() {
-//        String song = songsListView.getSelectionModel().getSelectedItem();
-//        if(song!=null){
-//            selectedSong.setText(song);
-//        }
+    private void onPopRowClickAction() throws IOException, SQLException {
+        String song = popListView.getSelectionModel().getSelectedItem();
+        if (song != null) {
+            App.setSongID(getSongID(song));
+            App.navigateTo("selectedSong");
+        }
+    }
+
+    @FXML
+    private void onJazzRowClickAction() throws IOException, SQLException {
+        String song = jazzListView.getSelectionModel().getSelectedItem();
+        if (song != null) {
+            App.setSongID(getSongID(song));
+            App.navigateTo("selectedSong");
+        }
+    }
+
+    @FXML
+    private void onClassicRowClickAction() throws IOException, SQLException {
+        String song = classicListView.getSelectionModel().getSelectedItem();
+        if (song != null) {
+            App.setSongID(getSongID(song));
+            App.navigateTo("selectedSong");
+        }
     }
 
     @FXML
@@ -333,6 +352,7 @@ public class selectedUser implements Initializable {
         int category_id = 3;
         playlistCopy(category_id);
     }
+
 
     @FXML
     private void follow() throws SQLException {

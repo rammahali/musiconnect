@@ -66,7 +66,7 @@
             </image>
          </ImageView>
       </Pane>
-      <ListView fx:id="popListView" layoutX="259.0" layoutY="221.0" onMouseClicked="#onSongActionClick" prefHeight="167.0" prefWidth="228.0" styleClass="container" />
+      <ListView fx:id="popListView" layoutX="259.0" layoutY="221.0" onMouseClicked="#onPopRowClickAction" prefHeight="167.0" prefWidth="228.0" styleClass="container" />
       <Pane layoutX="581.0" layoutY="24.0" prefHeight="75.0" prefWidth="356.0" styleClass="container">
          <children>
             <Circle fx:id="userPicture" fill="#4e0969" layoutX="51.0" layoutY="38.0" radius="34.0" stroke="#080808" strokeType="INSIDE" strokeWidth="0.5" />
@@ -87,13 +87,13 @@
             <Font size="23.0" />
          </font>
       </Text>
-      <ListView fx:id="jazzListView" layoutX="496.0" layoutY="221.0" onMouseClicked="#onSongActionClick" prefHeight="167.0" prefWidth="228.0" styleClass="container" />
+      <ListView fx:id="jazzListView" layoutX="496.0" layoutY="221.0" onMouseClicked="#onJazzRowClickAction" prefHeight="167.0" prefWidth="228.0" styleClass="container" />
       <Text fill="#fcf3f3" layoutX="566.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jazz List">
          <font>
             <Font size="23.0" />
          </font>
       </Text>
-      <ListView fx:id="classicListView" layoutX="731.0" layoutY="221.0" onMouseClicked="#onSongActionClick" prefHeight="167.0" prefWidth="228.0" styleClass="container" />
+      <ListView fx:id="classicListView" layoutX="731.0" layoutY="221.0" onMouseClicked="#onClassicRowClickAction" prefHeight="167.0" prefWidth="228.0" styleClass="container" />
       <Text fill="#fcf3f3" layoutX="790.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Classic List">
          <font>
             <Font size="23.0" />
