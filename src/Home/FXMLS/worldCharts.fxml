@@ -74,7 +74,7 @@
             </Text>
          </children>
       </Pane>
-      <TableView fx:id="worldList" layoutX="344.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="worldList" onMouseClicked="#onWorldRowClickAction" layoutX="344.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
         <columns>
             <TableColumn fx:id="worldOrder" prefWidth="30.0" text="#" />
             <TableColumn fx:id="worldName" prefWidth="98.0" text="Name" />
@@ -90,7 +90,7 @@
             </Text>
          </children>
       </Pane>
-      <TableView fx:id="countryList" layoutX="609.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="countryList" onMouseClicked="#onCountryRowClickAction" layoutX="609.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
          <columns>
              <TableColumn fx:id="countryOrder" prefWidth="27.0" text="#" />
              <TableColumn fx:id="countryName" prefWidth="106.0" text="Name" />

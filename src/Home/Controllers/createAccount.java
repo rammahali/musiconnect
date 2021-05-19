@@ -131,16 +131,4 @@ public class createAccount implements Initializable {
         countryList.setItems(countries);
         countryList.getSelectionModel().select(0);
     }
-
-
-// try {
-//        FXMLLoader loader = loaderFactory("userPlaylists");
-//        Parent root = loader.load();
-//        userPlaylists controller = loader.getController();
-//
-//        controller.getUserData(email.getText());
-//        App.scene.setRoot(root);
-//    } catch (IOException e) {
-//        e.printStackTrace();
-//    }
 }

@@ -83,11 +83,12 @@ public class worldCharts implements Initializable {
 
     private void populateCountriesChart() {
         final ObservableList<Song> data = FXCollections.observableArrayList();
+        countryOrder.setCellValueFactory(new PropertyValueFactory<>("ID"));
         countryOrder.setCellValueFactory(new PropertyValueFactory<>("Order"));
         countryName.setCellValueFactory(new PropertyValueFactory<>("Name"));
         countryStreams.setCellValueFactory(new PropertyValueFactory<>("Streams"));
         String query = """
-                SELECT song.name AS name, streams.streams AS streams
+                SELECT song.id AS id, song.name AS name, streams.streams AS streams
                 FROM song
                          JOIN streams ON song.id = streams.song_id WHERE streams.country_id = ?
                 ORDER BY streams DESC""";
@@ -96,9 +97,10 @@ public class worldCharts implements Initializable {
             ResultSet resultSet = executeQuery(statement);
             int i = 1;
             while (resultSet.next()) {
+                int songID = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int streams = resultSet.getInt("streams");
-                data.add(new Song(i, name, streams));
+                data.add(new Song(i, songID, name, streams));
                 i++;
             }
 
@@ -110,21 +112,23 @@ public class worldCharts implements Initializable {
 
     private void populateWorldChart() {
         final ObservableList<Song> data = FXCollections.observableArrayList();
+        worldOrder.setCellValueFactory(new PropertyValueFactory<>("ID"));
         worldOrder.setCellValueFactory(new PropertyValueFactory<>("Order"));
         worldName.setCellValueFactory(new PropertyValueFactory<>("Name"));
         worldStreams.setCellValueFactory(new PropertyValueFactory<>("Streams"));
         String query = """
-                SELECT song.name, SUM(streams.streams) AS streams
+                SELECT song.id AS id, song.name, SUM(streams.streams) AS streams
                 FROM song
                          JOIN streams ON song.id = streams.song_id
-                GROUP BY song.name ORDER BY streams DESC""";
+                GROUP BY song.name, song.id ORDER BY streams DESC""";
         try (PreparedStatement statement = App.connection.prepareStatement(query)) {
             ResultSet resultSet = executeQuery(statement);
             int i = 1;
             while (resultSet.next()) {
+                int songID = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int streams = resultSet.getInt("streams");
-                data.add(new Song(i, name, streams));
+                data.add(new Song(i, songID, name, streams));
                 i++;
             }
 
@@ -137,6 +141,24 @@ public class worldCharts implements Initializable {
     private void populateCharts() {
         populateWorldChart();
         populateCountriesChart();
+    }
+
+    @FXML
+    private void onWorldRowClickAction() throws IOException {
+        Song song = worldList.getSelectionModel().getSelectedItem();
+        if (song != null) {
+            App.setSongID(song.getID());
+            App.navigateTo("selectedSong");
+        }
+    }
+
+    @FXML
+    private void onCountryRowClickAction() throws IOException {
+        Song song = countryList.getSelectionModel().getSelectedItem();
+        if (song != null) {
+            App.setSongID(song.getID());
+            App.navigateTo("selectedSong");
+        }
     }
 
     @FXML

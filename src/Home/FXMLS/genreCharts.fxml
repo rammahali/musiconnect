@@ -74,7 +74,7 @@
             </Text>
          </children>
       </Pane>
-      <TableView fx:id="popList" layoutX="284.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="popList" layoutX="284.0" onMouseClicked="#onPopRowClickAction" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
         <columns>
             <TableColumn fx:id="popOrder" prefWidth="30.0" text="#" />
             <TableColumn fx:id="popName" prefWidth="98.0" text="Name" />
@@ -99,14 +99,14 @@
             </Text>
          </children>
       </Pane>
-      <TableView fx:id="jazzList" layoutX="507.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="jazzList" layoutX="507.0" onMouseClicked="#onJazzRowClickAction" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
          <columns>
              <TableColumn fx:id="jazzOrder" prefWidth="30.0" text="#" />
              <TableColumn fx:id="jazzName" prefWidth="98.0" text="Name" />
              <TableColumn fx:id="jazzStreams" prefWidth="71.0" text="Streams" />
          </columns>
       </TableView>
-      <TableView fx:id="classicList" layoutX="732.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="classicList" layoutX="732.0" onMouseClicked="#onClassicRowClickAction" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
          <columns>
              <TableColumn fx:id="classicOrder" prefWidth="30.0" text="#" />
              <TableColumn fx:id="classicName" prefWidth="98.0" text="Name" />
