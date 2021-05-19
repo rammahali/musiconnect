@@ -24,8 +24,8 @@ public class charts implements Initializable {
     ChoiceBox<String> navigator;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Helper.getUserData(displayName, profilePicture);
         Helper.populateUserNavigator(navigator,"Charts");
-
     }
 
     @FXML private  void navigate (){
@@ -42,4 +42,13 @@ public class charts implements Initializable {
         App.close();
     }
 
+    @FXML
+    public void gotoWorldCharts() throws IOException {
+        App.navigateTo("worldCharts");
+    }
+
+    @FXML
+    public void gotoGenreCharts() throws IOException {
+        App.navigateTo("genreCharts");
+    }
 }

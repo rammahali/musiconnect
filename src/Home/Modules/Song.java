@@ -6,6 +6,31 @@ public class Song {
     int ID;
     String name;
     String album;
+    Integer streams;
+    Integer order;
+    int length;
+    Date releaseDate;
+
+
+    public Song(Integer order, String name, Integer streams) {
+        setOrder(order);
+        setName(name);
+        setStreams(streams);
+    }
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+    public Integer getStreams() {
+        return streams;
+    }
+
+    public void setStreams(Integer streams) {
+        this.streams = streams;
+    }
 
     public String getAlbum() {
         return album;
@@ -14,9 +39,6 @@ public class Song {
     public void setAlbum(String album) {
         this.album = album;
     }
-
-    int length;
-    Date releaseDate;
 
     public int getLength() {
         return length;
