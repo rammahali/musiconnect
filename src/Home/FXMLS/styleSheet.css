@@ -31,3 +31,109 @@
     -fx-background-color: #290537;
 }
 
+.dashboard-menu-button{
+    -fx-background-color: #20001E;
+    -fx-background-radius: 20;
+}
+
+.dashboard-menu-button:hover{
+    -fx-background-color: #4E0969;
+    -fx-background-radius: 20;
+}
+
+.playlist{
+    -fx-background-color: #20001E;
+}
+
+.flat-button{
+    -fx-background-color: #4E0969;
+}
+.flat-button:hover{
+    -fx-background-color: #290537;
+}
+.place-holder{
+    -fx-background-color: #48115E;
+}
+.place-holder:hover{
+    -fx-background-color: #290537;
+}
+.container{
+    -fx-background-color: #4E0969;
+}
+.list-container{
+    -fx-background-color: #4E0969;
+    -fx-text-fill: #FFFFFF;
+}
+.container-button{
+    -fx-background-color: #FFFFFF;
+}
+
+.container-button:hover{
+    -fx-background-color: #290537;
+    -fx-text-fill: #FFFFFF;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #48115E;
+}
+
+.list-view{
+    -fx-background-color: #4E0969;
+}
+
+.list-view .list-cell:even {
+    -fx-background-color: #4E0969;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+.list-view .list-cell:odd {
+    -fx-background-color: #4E0969;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: #290537;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 15;
+}
+.list-view .list-cell:hover {
+    -fx-background-color: #290537;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 15;
+}
+
+.list-view.list-cell:hover {
+    -fx-background-color: #290537;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 15;
+}
+
